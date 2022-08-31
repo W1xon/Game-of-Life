@@ -13,28 +13,43 @@ namespace Game_of_Life
 {
     public partial class Form1 : Form
     {
-        Graphics graphics;
-        bool[,] arrayCell;
-        bool[,] lastArrayCell;
-        int rows;
-        int columns;
-        int sizeCell;
-        int densityCell;
-        int countGeneration;
-        bool isStop = false;
-
-        FormHelp frmHelp = new FormHelp();
+        private Graphics graphics;
+        private bool[,] arrayCell;
+        private bool[,] lastArrayCell;
+        private int rows;
+        private int columns;
+        private int sizeCell;
+        private int densityCell;
+        private int countGeneration;
+        private bool isStop = false;
+        private FormHelp frmHelp = new FormHelp();
+        bool doubleClick = false;
         public Form1()
         {
             InitializeComponent();
             timer1.Interval = 50;
         }
 
-
+        private void DrowFigures(int positionX, int positionY)
+        {
+            if (comboBoxFigures.SelectedItem == null)
+                return;
+            bool[,] figure = Figures.Get(comboBoxFigures.SelectedItem.ToString());
+            for (int x = 0; x < figure.GetLength(0); x++)
+            {
+                for (int y = 0; y < figure.GetLength(1); y++)
+                {
+                    try { arrayCell[(positionX + y), (positionY + x)] = figure[x, y]; }
+                    catch { break; }
+                }
+            }
+            doubleClick = false;
+            PauseDrawning();
+        }
         private void ShowFormHelper()
         {
             frmHelp = new FormHelp();
-            frmHelp.Show();
+            frmHelp.ShowDialog();
         }
         private void ColorCell(Graphics graphics, int x, int y)
         {
@@ -237,6 +252,10 @@ namespace Game_of_Life
                 return;
             int x = e.X / sizeCell;
             int y = e.Y / sizeCell;
+            if (doubleClick)
+            {
+                DrowFigures(x, y);
+            }
             if (e.Button == MouseButtons.Left)
             {
                 if (CheckOutRange(x, y))
@@ -245,6 +264,7 @@ namespace Game_of_Life
                     PauseDrawning();
                 }
             }
+
             if (e.Button == MouseButtons.Right)
             {
                 if (CheckOutRange(x, y))
@@ -313,6 +333,31 @@ namespace Game_of_Life
         {
             NextGeneration();
         }
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            timer1.Interval = trackBar1.Value;
+            numericUpDownUpdateTime.Value = trackBar1.Value;
+        }
+
+        private void numericUpDownUpdateTime_ValueChanged(object sender, EventArgs e)
+        {
+            timer1.Interval = (int)numericUpDownUpdateTime.Value;
+            trackBar1.Value = timer1.Interval;
+        }
+        private void textBox_TextChanged(object sender, EventArgs e)
+        {
+            CorrectInput(textBoxB);
+            CorrectInput(textBoxS);
+        }
+
+
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            if (comboBoxFigures.SelectedItem != null)
+                doubleClick = true;
+        }
+        //Button
+        #region
         private void buttonStart_Click(object sender, EventArgs e)
         {
             GameStart();
@@ -320,11 +365,6 @@ namespace Game_of_Life
         private void buttonStop_Click(object sender, EventArgs e)
         {
             GameStop();
-        }
-        private void trackBar1_ValueChanged(object sender, EventArgs e)
-        {
-            timer1.Interval = trackBar1.Value;
-            numericUpDownUpdateTime.Value = trackBar1.Value;
         }
         private void buttonProceed_Click(object sender, EventArgs e)
         {
@@ -345,30 +385,10 @@ namespace Game_of_Life
             buttonProceed.Enabled = true;
             NextGeneration();
         }
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (graphics != null)
-                DrawForMouse(e);
-            else
-                buttonStartEmpty.PerformClick();
-        }
-        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
-        {
-            DrawForMouse(e);
-        }
         private void buttonClear_Click(object sender, EventArgs e)
         {
             Clear();
             isStop = true;
-        }
-        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (graphics != null && !isStop)
-                timer1.Start();
-        }
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
-        {
-            timer1.Stop();
         }
 
         private void buttonStartEmpty_Click(object sender, EventArgs e)
@@ -382,21 +402,11 @@ namespace Game_of_Life
             graphics.Clear(Color.Black);
         }
 
-        private void numericUpDownUpdateTime_ValueChanged(object sender, EventArgs e)
-        {
-            timer1.Interval = (int)numericUpDownUpdateTime.Value;
-            trackBar1.Value = timer1.Interval;
-        }
-        private void textBox_TextChanged(object sender, EventArgs e)
-        {
-            CorrectInput(textBoxB);
-            CorrectInput(textBoxS);
-        }
-
         private void buttonHelp_Click(object sender, EventArgs e)
         {
             ShowFormHelper();
         }
+        #endregion
 
         private void checkBoxColor_CheckedChanged(object sender, EventArgs e)
         {
@@ -408,5 +418,28 @@ namespace Game_of_Life
             CorrectInput(textBoxB);
             CorrectInput(textBoxS);
         }
+        //Mouse
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (graphics != null)
+                DrawForMouse(e);
+            else
+                buttonStartEmpty.PerformClick();
+        }
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            DrawForMouse(e);
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (graphics != null && !isStop)
+                timer1.Start();
+        }
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            timer1.Stop();
+        }
+
     }
 }
