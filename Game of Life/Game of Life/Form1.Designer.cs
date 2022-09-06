@@ -30,8 +30,11 @@ namespace Game_of_Life
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.comboBoxBrush = new System.Windows.Forms.ComboBox();
+            this.comboBoxFigures = new System.Windows.Forms.ComboBox();
             this.checkBoxSort = new System.Windows.Forms.CheckBox();
             this.comboBoxStyle = new System.Windows.Forms.ComboBox();
             this.buttonHelp = new System.Windows.Forms.Button();
@@ -81,6 +84,8 @@ namespace Game_of_Life
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.comboBoxBrush);
+            this.splitContainer1.Panel1.Controls.Add(this.comboBoxFigures);
             this.splitContainer1.Panel1.Controls.Add(this.checkBoxSort);
             this.splitContainer1.Panel1.Controls.Add(this.comboBoxStyle);
             this.splitContainer1.Panel1.Controls.Add(this.buttonHelp);
@@ -107,9 +112,53 @@ namespace Game_of_Life
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(1122, 1004);
+            this.splitContainer1.Size = new System.Drawing.Size(1122, 1057);
             this.splitContainer1.SplitterDistance = 200;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // comboBoxBrush
+            // 
+            this.comboBoxBrush.Font = new System.Drawing.Font("Balsamiq Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxBrush.FormattingEnabled = true;
+            this.comboBoxBrush.Items.AddRange(new object[] {
+            "Стандартная",
+            "Маленькая 2х2",
+            "Средняя 3х3",
+            "Большая 5х5",
+            "Крест",
+            "Линия В.",
+            "Линия Г."});
+            this.comboBoxBrush.Location = new System.Drawing.Point(18, 917);
+            this.comboBoxBrush.Name = "comboBoxBrush";
+            this.comboBoxBrush.Size = new System.Drawing.Size(150, 35);
+            this.comboBoxBrush.TabIndex = 23;
+            this.comboBoxBrush.Text = "Выбор кисти";
+            // 
+            // comboBoxFigures
+            // 
+            this.comboBoxFigures.Font = new System.Drawing.Font("Balsamiq Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxFigures.FormattingEnabled = true;
+            this.comboBoxFigures.Items.AddRange(new object[] {
+            "Glider",
+            "Pulsar",
+            "Cube",
+            "Triangle",
+            "Figure 1",
+            "LWSS",
+            "Улей",
+            "Каравай",
+            "Блок",
+            "Ящик",
+            "Пруд",
+            "Галактика Кока",
+            "Мигалка",
+            "Крест",
+            "Пентадекатлон"});
+            this.comboBoxFigures.Location = new System.Drawing.Point(18, 876);
+            this.comboBoxFigures.Name = "comboBoxFigures";
+            this.comboBoxFigures.Size = new System.Drawing.Size(150, 35);
+            this.comboBoxFigures.TabIndex = 22;
+            this.comboBoxFigures.Text = "Выбор фигуры";
             // 
             // checkBoxSort
             // 
@@ -143,8 +192,7 @@ namespace Game_of_Life
             "Профиль 9",
             "Профиль 10",
             "Профиль 11",
-            "Профиль 12",
-            "Профиль 13"});
+            "Профиль 12"});
             this.comboBoxStyle.Location = new System.Drawing.Point(18, 458);
             this.comboBoxStyle.Name = "comboBoxStyle";
             this.comboBoxStyle.Size = new System.Drawing.Size(150, 39);
@@ -155,7 +203,7 @@ namespace Game_of_Life
             // buttonHelp
             // 
             this.buttonHelp.Font = new System.Drawing.Font("Balsamiq Sans", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonHelp.Location = new System.Drawing.Point(18, 876);
+            this.buttonHelp.Location = new System.Drawing.Point(18, 958);
             this.buttonHelp.Name = "buttonHelp";
             this.buttonHelp.Size = new System.Drawing.Size(150, 40);
             this.buttonHelp.TabIndex = 20;
@@ -170,6 +218,11 @@ namespace Game_of_Life
             this.numericUpDownUpdateTime.Location = new System.Drawing.Point(144, 376);
             this.numericUpDownUpdateTime.Maximum = new decimal(new int[] {
             400,
+            0,
+            0,
+            0});
+            this.numericUpDownUpdateTime.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
@@ -416,9 +469,10 @@ namespace Game_of_Life
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(914, 1000);
+            this.pictureBox1.Size = new System.Drawing.Size(914, 1053);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
@@ -429,10 +483,11 @@ namespace Game_of_Life
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1122, 1004);
+            this.ClientSize = new System.Drawing.Size(1122, 1057);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.HelpButton = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Game of Life";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -476,6 +531,8 @@ namespace Game_of_Life
         private System.Windows.Forms.Button buttonHelp;
         private System.Windows.Forms.ComboBox comboBoxStyle;
         public System.Windows.Forms.CheckBox checkBoxSort;
+        private System.Windows.Forms.ComboBox comboBoxFigures;
+        private System.Windows.Forms.ComboBox comboBoxBrush;
     }
 }
 

@@ -85,7 +85,7 @@
             this.label1.Location = new System.Drawing.Point(3, 151);
             this.label1.MaximumSize = new System.Drawing.Size(990, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(989, 1364);
+            this.label1.Size = new System.Drawing.Size(989, 1488);
             this.label1.TabIndex = 3;
             this.label1.Text = resources.GetString("label1.Text");
             // 
@@ -189,7 +189,7 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Gray;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(0, 1177);
+            this.pictureBox1.Location = new System.Drawing.Point(9, 1276);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(890, 108);
             this.pictureBox1.TabIndex = 11;
@@ -199,7 +199,7 @@
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.Gray;
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(0, 1360);
+            this.pictureBox2.Location = new System.Drawing.Point(12, 1483);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(890, 127);
             this.pictureBox2.TabIndex = 12;
@@ -225,6 +225,7 @@
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FormHelp";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
