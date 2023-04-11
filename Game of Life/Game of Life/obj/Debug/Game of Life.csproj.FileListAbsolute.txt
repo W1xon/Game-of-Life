@@ -14,3 +14,55 @@ C:\Users\vladi\source\repos\Game of Life\Game of Life\obj\Debug\Game of Life.exe
 C:\Users\vladi\source\repos\Game of Life\Game of Life\obj\Debug\Game of Life.application
 C:\Users\vladi\source\repos\Game of Life\Game of Life\obj\Debug\Game of Life.csproj.SuggestedBindingRedirects.cache
 C:\Users\vladi\source\repos\Game of Life\Game of Life\obj\Debug\Game_of_Life.FormHelp.resources
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\bin\Debug\Game of Life.exe.config
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\bin\Debug\Game of Life.exe.manifest
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\bin\Debug\Game of Life.application
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\bin\Debug\Game of Life.exe
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\bin\Debug\Game of Life.pdb
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\obj\Debug\Game of Life.csproj.AssemblyReference.cache
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\obj\Debug\Game of Life.csproj.SuggestedBindingRedirects.cache
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\obj\Debug\Game_of_Life.Form1.resources
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\obj\Debug\Game_of_Life.FormHelp.resources
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\obj\Debug\Game_of_Life.Properties.Resources.resources
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\obj\Debug\Game of Life.csproj.GenerateResource.cache
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\obj\Debug\Game of Life.csproj.CoreCompileInputs.cache
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\obj\Debug\Game of Life.exe.manifest
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\obj\Debug\Game of Life.application
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\obj\Debug\Game of Life.exe
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\obj\Debug\Game of Life.pdb
+C:\Users\Wixon\source\repos\Game of Life\Game of Life\obj\Debug\Game_of_Life.Forms.FormCellControl.resources
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\bin\Debug\Game of Life.exe.config
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\bin\Debug\Game of Life.exe.manifest
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\bin\Debug\Game of Life.application
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\bin\Debug\Game of Life.exe
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\bin\Debug\Game of Life.pdb
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\obj\Debug\Game of Life.csproj.AssemblyReference.cache
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\obj\Debug\Game of Life.csproj.SuggestedBindingRedirects.cache
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\obj\Debug\Game_of_Life.Form1.resources
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\obj\Debug\Game_of_Life.Forms.FormCellControl.resources
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\obj\Debug\Game_of_Life.FormHelp.resources
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\obj\Debug\Game_of_Life.Properties.Resources.resources
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\obj\Debug\Game of Life.csproj.GenerateResource.cache
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\obj\Debug\Game of Life.csproj.CoreCompileInputs.cache
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\obj\Debug\Game of Life.exe.manifest
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\obj\Debug\Game of Life.application
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\obj\Debug\Game of Life.exe
+C:\Users\Wixon\source\repos\Game of Life Рабочая — копия (2)\Game of Life\obj\Debug\Game of Life.pdb
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\bin\Debug\Game of Life.exe.config
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\bin\Debug\Game of Life.exe.manifest
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\bin\Debug\Game of Life.application
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\bin\Debug\Game of Life.exe
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\bin\Debug\Game of Life.pdb
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\obj\Debug\Game of Life.csproj.AssemblyReference.cache
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\obj\Debug\Game of Life.csproj.SuggestedBindingRedirects.cache
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\obj\Debug\Game_of_Life.Form1.resources
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\obj\Debug\Game_of_Life.Forms.FormCellControl.resources
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\obj\Debug\Game_of_Life.FormHelp.resources
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\obj\Debug\Game_of_Life.Properties.Resources.resources
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\obj\Debug\Game of Life.csproj.GenerateResource.cache
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\obj\Debug\Game of Life.csproj.CoreCompileInputs.cache
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\obj\Debug\Game of Life.exe.manifest
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\obj\Debug\Game of Life.application
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\obj\Debug\Game of Life.exe
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\obj\Debug\Game of Life.pdb
+C:\Users\Wixon\source\repos\Game of Life Новая рабочая\Game of Life\obj\Debug\Game_of_Life.Forms.FormCreateCell.resources

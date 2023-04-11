@@ -155,21 +155,12 @@ namespace Game_of_Life
                {1,1,1,1,1,1,1},
             },
         };
-        public static bool[,] Get(string key)
+        public static int[,] Get(string key)
         {
             int s = ListFigures["Pulsar"].GetLength(0);
             if (!ListFigures.ContainsKey(key))
                 return null;
-            bool[,] arrayBool = new bool[ListFigures[key].GetLength(0), ListFigures[key].GetLength(1)];
-            for (int x = 0; x < arrayBool.GetLength(0); x++)
-            {
-                for (int y = 0; y < arrayBool.GetLength(1); y++)
-                {
-                    if (ListFigures[key][x, y] == 1)
-                        arrayBool[x, y] = true;
-                }
-            }
-            return arrayBool;
+            return ListFigures[key];
         }
 
     }
