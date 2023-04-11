@@ -145,6 +145,7 @@
 "Сортировать" если этот параметр включен то поля будут автоматически сортироваться.
 Параметр "Выбирите фигуру" вы можете выбрать фигуру из выпадающего списка и двойным кликом по полю сгенерировать их.
 Ниже расположен параметр который отвечает за то как будет рисовать кисть(Если вы хотите корректно отобразить фигуры то рекомендуется использовать стандартную кисть.
+Кнопка "Открыть" позволяет выбрать картинку с вашего пк и отрисовать её на поле.
                                                                                 Галерея.
 
 
@@ -164,7 +165,7 @@
   <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAA+gAAAIyCAIAAADXE3dOAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAFylJREFUeF7t3XusLVddB/BfophikCgoj8RQAgpEJECAIkqE8EgM0RhEHuGpQC3Q
+        vAAADrwBlbxySQAAFylJREFUeF7t3XusLVddB/BfophikCgoj8RQAgpEJECAIkqE8EgM0RhEHuGpQC3Q
         gkKB1ooBFClGUCjIS+QdlRIxKP+IaBAIQpFXRKICDRZ52Fi4KBBBUCfnrAy9a+3Zj7Xm3D0z+/PJN/2j
         s2btNevcvc63zblnB7PxqIgLIh6/Xc6PODfdtzcXRjyhWNhQnhRx/3TfwbljxJOLDVmTQ96rOneI+L/x
         8sk0K8DOutO7O8OzU30K6b5l/1BaI0v35uIb2665Os3EOqeKfVuf/0337U22no35ULrv4Dyr2IqNOdi9
@@ -269,7 +270,7 @@
   <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAA9EAAACTCAIAAAAGKg3eAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAACsdJREFUeF7t1kGS5CgQRcG+/6Vn9n8RKUwIiMLd3lIGUlBN5z8AAAAAAAAAAAAA
+        vAAADrwBlbxySQAACsdJREFUeF7t1kGS5CgQRcG+/6Vn9n8RKUwIiMLd3lIGUlBN5z8AAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAOB0//UJAABait+1JwcAAC3F79qTAwCAluJ37ckBAEBL8bv25AA4QtzOLarF
         w6MB/BT3xskBcIS4nVtUi4dHA/gp7o2TA+AIcTu3qBYPjwbwU9wbJwfAEeJ2blEtHh4N4Ke4N04OgCPE
         7dyiWjw8GsBPcW+cHABHiNu5RbV4eDSAn+LeODkAjhC3c4tq8fBoAD/FvXFyABwhbucW1eLh0QB+invj
@@ -317,6 +318,21 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAPxF//79D2atYWADEPXbAAAAAElFTkSuQmCC
 </value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>                                                                       Окно создания клеток
+При нажатии на кнопку "Редактор клеток" откроется окно "Управления клетками" в самом верху 
+будет кнопка "Создать" ниже будет список всех созданных клеток, у каждой клетки написаны 
+её правила, а также показан цвет, кнопка "Выбрать" при нажатии на которую вы сможете 
+рисовать на поле клетками данного вида, а также имеется кнопка "Удалить" для удаления 
+клетки если она вам не нужна. При нажатии на кнопку "Создать" появится небольшое
+окно "Создание клетки" в этом окне в самом верху вы можете записать правила для клетки.
+ниже нажав на цветное поле у вас появится возможность выбрать цвет для создаваемой клетки.
+После того как вы задали правила и выбрали цвет нажмите на кнопку "Создать" при нажатии
+на неё у вас создастся новая клетка которая будет отображатся в общем списке.
+Также созданные клетки можно выбрать в клавном окне в выпадающем списке "Выбор клеток"
+При нажатии на ALT и Левая кнопка мыши вы можете выбрать нужный вид клеток из тех, 
+что находятся на поле.</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

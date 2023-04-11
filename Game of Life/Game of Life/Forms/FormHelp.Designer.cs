@@ -41,6 +41,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -49,12 +50,12 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Balsamiq Sans", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.ForeColor = System.Drawing.Color.Green;
             this.label2.Location = new System.Drawing.Point(3, 89);
             this.label2.MaximumSize = new System.Drawing.Size(1000, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(979, 62);
+            this.label2.Size = new System.Drawing.Size(969, 48);
             this.label2.TabIndex = 1;
             this.label2.Text = "Игра «Жизнь» (англ. Conway\'s Game of Life) — клеточный автомат, придуманный англи" +
     "йским математиком Джоном Конвеем в 1970 году.";
@@ -64,11 +65,11 @@
             this.linkLabel1.ActiveLinkColor = System.Drawing.Color.Black;
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel1.Font = new System.Drawing.Font("Balsamiq Sans", 47.99999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 47.99999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.linkLabel1.LinkColor = System.Drawing.Color.Green;
             this.linkLabel1.Location = new System.Drawing.Point(290, -6);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(418, 105);
+            this.linkLabel1.Size = new System.Drawing.Size(399, 73);
             this.linkLabel1.TabIndex = 2;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Game of Life";
@@ -80,12 +81,12 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Balsamiq Sans", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.ForeColor = System.Drawing.Color.Green;
             this.label1.Location = new System.Drawing.Point(3, 151);
             this.label1.MaximumSize = new System.Drawing.Size(990, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(989, 1488);
+            this.label1.Size = new System.Drawing.Size(986, 1200);
             this.label1.TabIndex = 3;
             this.label1.Text = resources.GetString("label1.Text");
             // 
@@ -94,12 +95,12 @@
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(5)))), ((int)(((byte)(5)))));
             this.label3.Cursor = System.Windows.Forms.Cursors.Help;
-            this.label3.Font = new System.Drawing.Font("Balsamiq Sans", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.ForeColor = System.Drawing.Color.Green;
             this.label3.Location = new System.Drawing.Point(3, 247);
             this.label3.MaximumSize = new System.Drawing.Size(1000, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(164, 93);
+            this.label3.Size = new System.Drawing.Size(162, 72);
             this.label3.TabIndex = 4;
             this.label3.Text = "Рождается если \r\nрядом есть:\r\n3\r\n";
             // 
@@ -108,12 +109,12 @@
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(5)))), ((int)(((byte)(5)))));
             this.label4.Cursor = System.Windows.Forms.Cursors.Help;
-            this.label4.Font = new System.Drawing.Font("Balsamiq Sans", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label4.ForeColor = System.Drawing.Color.Green;
             this.label4.Location = new System.Drawing.Point(3, 347);
             this.label4.MaximumSize = new System.Drawing.Size(1000, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(181, 93);
+            this.label4.Size = new System.Drawing.Size(178, 72);
             this.label4.TabIndex = 5;
             this.label4.Text = "Живет если рядом\r\nесть:\r\n23\r\n";
             // 
@@ -122,12 +123,12 @@
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(5)))), ((int)(((byte)(5)))));
             this.label5.Cursor = System.Windows.Forms.Cursors.Help;
-            this.label5.Font = new System.Drawing.Font("Balsamiq Sans", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label5.ForeColor = System.Drawing.Color.Green;
-            this.label5.Location = new System.Drawing.Point(3, 715);
+            this.label5.Location = new System.Drawing.Point(12, 606);
             this.label5.MaximumSize = new System.Drawing.Size(1000, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(85, 62);
+            this.label5.Size = new System.Drawing.Size(82, 48);
             this.label5.TabIndex = 6;
             this.label5.Text = "Размер:\r\n10\r\n";
             // 
@@ -136,12 +137,12 @@
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(5)))), ((int)(((byte)(5)))));
             this.label6.Cursor = System.Windows.Forms.Cursors.Help;
-            this.label6.Font = new System.Drawing.Font("Balsamiq Sans", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label6.ForeColor = System.Drawing.Color.Green;
-            this.label6.Location = new System.Drawing.Point(3, 809);
+            this.label6.Location = new System.Drawing.Point(12, 686);
             this.label6.MaximumSize = new System.Drawing.Size(1000, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(110, 62);
+            this.label6.Size = new System.Drawing.Size(112, 48);
             this.label6.TabIndex = 7;
             this.label6.Text = "Плотность:\r\n2";
             // 
@@ -149,7 +150,7 @@
             // 
             this.trackBar1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(5)))), ((int)(((byte)(5)))));
             this.trackBar1.Cursor = System.Windows.Forms.Cursors.Help;
-            this.trackBar1.Location = new System.Drawing.Point(4, 931);
+            this.trackBar1.Location = new System.Drawing.Point(16, 782);
             this.trackBar1.Maximum = 400;
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
@@ -162,12 +163,12 @@
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(5)))), ((int)(((byte)(5)))));
             this.label7.Cursor = System.Windows.Forms.Cursors.Help;
-            this.label7.Font = new System.Drawing.Font("Balsamiq Sans", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label7.ForeColor = System.Drawing.Color.Green;
-            this.label7.Location = new System.Drawing.Point(3, 903);
+            this.label7.Location = new System.Drawing.Point(8, 755);
             this.label7.MaximumSize = new System.Drawing.Size(1000, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(187, 31);
+            this.label7.Size = new System.Drawing.Size(185, 24);
             this.label7.TabIndex = 9;
             this.label7.Text = "Время обновления:";
             // 
@@ -176,12 +177,12 @@
             this.label8.AutoSize = true;
             this.label8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(5)))), ((int)(((byte)(5)))));
             this.label8.Cursor = System.Windows.Forms.Cursors.Help;
-            this.label8.Font = new System.Drawing.Font("Balsamiq Sans", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label8.ForeColor = System.Drawing.Color.Green;
-            this.label8.Location = new System.Drawing.Point(122, 931);
+            this.label8.Location = new System.Drawing.Point(142, 791);
             this.label8.MaximumSize = new System.Drawing.Size(1000, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(36, 31);
+            this.label8.Size = new System.Drawing.Size(30, 24);
             this.label8.TabIndex = 10;
             this.label8.Text = "50";
             // 
@@ -189,7 +190,7 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Gray;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(9, 1276);
+            this.pictureBox1.Location = new System.Drawing.Point(7, 1072);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(890, 108);
             this.pictureBox1.TabIndex = 11;
@@ -199,11 +200,24 @@
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.Gray;
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(12, 1483);
+            this.pictureBox2.Location = new System.Drawing.Point(7, 1354);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(890, 127);
             this.pictureBox2.TabIndex = 12;
             this.pictureBox2.TabStop = false;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Black;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label9.ForeColor = System.Drawing.Color.Green;
+            this.label9.Location = new System.Drawing.Point(12, 1484);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(902, 312);
+            this.label9.TabIndex = 13;
+            this.label9.Text = resources.GetString("label9.Text");
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // FormHelp
             // 
@@ -211,7 +225,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(984, 461);
+            this.ClientSize = new System.Drawing.Size(1014, 587);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label8);
@@ -251,5 +266,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label9;
     }
 }
