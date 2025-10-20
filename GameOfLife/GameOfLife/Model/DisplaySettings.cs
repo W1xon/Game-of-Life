@@ -1,26 +1,75 @@
-﻿namespace GameOfLife.Model;
-
-public class DisplaySettings
+﻿namespace GameOfLife.Model
 {
-    public int Width { get; }
-    public int Height { get; }
-    public int CellSize { get; }
-
-    public Vector MapSize { get; private set; }
-
-    public int MapWidthPx => MapSize.Y * CellSize;
-    public int MapHeightPx => MapSize.X * CellSize;
-
-    public DisplaySettings(int width, int height, int cellSize)
+    public class DisplaySettings : ObservableObject
     {
-        Width = width;
-        Height = height;
-        CellSize = cellSize;
-        MapSize = new Vector(width / cellSize, height / cellSize);
-    }
+        private int _width;
+        private int _height;
+        private int _cellSize;
+        private Vector _mapSize;
 
-    public override string ToString()
-    {
-        return $"Window: {Width}x{Height}px | CellType: {CellSize}px | Map: {MapSize.X}x{MapSize.Y} ({MapWidthPx}x{MapHeightPx}px)";
+        // Событие при изменении размеров карты
+        public event Action<Vector>? MapSizeChanged;
+
+        public int Width
+        {
+            get => _width;
+            set
+            {
+                Set(ref _width, value);
+                    UpdateMapSize();
+            }
+        }
+
+        public int Height
+        {
+            get => _height;
+            set
+            {
+                Set(ref _height, value);
+                    UpdateMapSize();
+            }
+        }
+
+        public int CellSize
+        {
+            get => _cellSize;
+            set
+            {
+                Set(ref _cellSize, value);
+                UpdateMapSize();
+            }
+        }
+
+        public Vector MapSize
+        {
+            get => _mapSize;
+            private set => Set(ref _mapSize, value);
+        }
+
+        public int MapWidthPx => MapSize.Y * CellSize;
+        public int MapHeightPx => MapSize.X * CellSize;
+
+        public DisplaySettings(int width, int height, int cellSize)
+        {
+            _width = width;
+            _height = height;
+            _cellSize = cellSize;
+            UpdateMapSize();
+        }
+
+        private void UpdateMapSize()
+        {
+            var newSize = new Vector(Width / CellSize, Height / CellSize);
+            if (newSize.Equals(_mapSize)) return;
+
+            MapSize = newSize;
+            OnPropertyChanged(nameof(MapWidthPx));
+            OnPropertyChanged(nameof(MapHeightPx));
+
+            MapSizeChanged?.Invoke(MapSize);
+        }
+
+        public override string ToString() =>
+            $"Window: {Width}x{Height}px | CellType: {CellSize}px | Map: {MapSize.X}x{MapSize.Y} ({MapWidthPx}x{MapHeightPx}px)";
     }
 }

@@ -2,13 +2,13 @@
 {
     public class TileMap
     {
-        public Vector Size { get; }
+        public Vector Size { get; private set; }
         public bool CanExitBounds { get; set; }
 
-        private readonly int[,] _current;
-        private readonly int[,] _next;
+        private int[,] _current;
+        private int[,] _next;
 
-        private int[] _neighbourCountsCache = Array.Empty<int>();
+        private int[] _neighbourCountsCache = [];
 
         public TileMap(Vector size)
         {
@@ -41,6 +41,13 @@
                         : (random.Next(10) < 3 ? 1 : 0);
                 }
             }
+        }
+
+        public void Resize(Vector size)
+        {
+            Size = size;
+            _current = new int[size.Y, size.X];
+            _next = new int[size.Y, size.X];
         }
         public KeyValuePair<int, int> GetCountNeighbours(Vector position, int cellsCountType)
         {

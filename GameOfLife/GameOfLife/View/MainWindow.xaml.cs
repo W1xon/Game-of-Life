@@ -5,6 +5,7 @@ using System.Windows.Threading;
 using GameOfLife.Model;
 using GameOfLife.Services;
 using GameOfLife.Services.ColorStrategies;
+using GameOfLife.ViewModel;
 
 namespace GameOfLife.View;
 
@@ -15,7 +16,6 @@ public partial class MainWindow : Window
 {
     private  Game _game;
     private  RenderingService _renderingService;
-    private  DisplaySettings _displaySettings;
     private  TileMap _tileMap;
     private DispatcherTimer _updateTimer;
     private Dictionary<int, IColorStrategy> _colorStrategies=  new Dictionary<int, IColorStrategy>
@@ -38,6 +38,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
     
+        DataContext = MainViewModel.Instance;
         GameBorder.Loaded += OnGameAreaLoaded;
     }
 
@@ -57,11 +58,16 @@ public partial class MainWindow : Window
 
     private void InitializeGame(int width, int height)
     {
-        _displaySettings = new DisplaySettings(width, height, cellSize: 5);
-    
+        MainViewModel.Instance.DisplaySettings = new DisplaySettings(width, height, cellSize: 5);
+        MainViewModel.Instance.DisplaySettings.MapSizeChanged += size =>
+        {
+            _renderingService.Clear();
+            _tileMap.Resize(size);
+        };
+
         var bitmap = new WriteableBitmap(
-            _displaySettings.Width, 
-            _displaySettings.Height, 
+            MainViewModel.Instance.DisplaySettings.Width, 
+            MainViewModel.Instance.DisplaySettings.Height, 
             96, 96, 
             PixelFormats.Bgra32, 
             null
@@ -69,8 +75,8 @@ public partial class MainWindow : Window
     
         Field.Source = bitmap;
     
-        _renderingService = new RenderingService(bitmap, _displaySettings);
-        _tileMap = new TileMap(_displaySettings.MapSize);
+        _renderingService = new RenderingService(bitmap, MainViewModel.Instance.DisplaySettings);
+        _tileMap = new TileMap(MainViewModel.Instance.DisplaySettings.MapSize);
         _game = new Game( _tileMap);
     
         InitializeGameLoop();
@@ -85,7 +91,7 @@ public partial class MainWindow : Window
         _updateTimer.Tick += (_, _) =>
         {
             _game.Update();
-            _renderingService.DrawField(_tileMap, _colorStrategies[11]);
+            _renderingService.DrawField(_tileMap, new PixelWaveStrategy());
         };
         _updateTimer.Start();
     }

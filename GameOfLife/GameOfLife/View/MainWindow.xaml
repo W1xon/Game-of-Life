@@ -1,8 +1,9 @@
 ﻿<Window
     Background="{StaticResource BgDark}"
-    Height="500"
+    Height="650"
     Title="Game of Life"
-    Width="900"
+    Width="1000"
+    WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     mc:Ignorable="d"
     x:Class="GameOfLife.View.MainWindow"
@@ -13,135 +14,154 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280" />
+            <ColumnDefinition Width="300" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <!--  Панель управления  -->
         <Border
             Background="{StaticResource BgPanel}"
             BorderBrush="{StaticResource BorderColor}"
             BorderThickness="0,0,1,0"
             Grid.Column="0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel Margin="20,20,20,20">
+                <StackPanel Margin="20">
 
-
+                    <!--  Заголовок  -->
                     <TextBlock
-                        HorizontalAlignment="Left"
+                        Margin="0,0,0,16"
                         Style="{StaticResource HeaderText}"
                         Text="Game of Life" />
 
-
+                    <!--  Управление  -->
                     <TextBlock
                         Margin="0,0,0,8"
                         Style="{StaticResource LabelText}"
                         Text="УПРАВЛЕНИЕ" />
 
-                    <Button
-                        Click="BtnStart_Click"
-                        Content="▶  Старт"
-                        Style="{StaticResource BtnGreen}" />
-
-                    <Button
-                        Click="BtnPause_Click"
-                        Content="⏸  Пауза"
-                        Style="{StaticResource BtnGold}" />
-
-                    <Button
-                        Click="BtnResume_Click"
-                        Content="⏯  Продолжить"
-                        Style="{StaticResource BtnBlue}" />
-
-                    <Button
-                        Click="BtnReset_Click"
-                        Content="🔄  Сброс"
-                        Style="{StaticResource BtnRed}" />
-
+                    <UniformGrid
+                        Columns="2"
+                        HorizontalAlignment="Stretch"
+                        Margin="0,0,0,12"
+                        Rows="2">
+                        <Button
+                            Click="BtnStart_Click"
+                            Content="▶  Старт"
+                            Style="{StaticResource BtnGreen}" />
+                        <Button
+                            Click="BtnPause_Click"
+                            Content="⏸  Пауза"
+                            Style="{StaticResource BtnGold}" />
+                        <Button
+                            Click="BtnResume_Click"
+                            Content="⏯  Продолжить"
+                            Style="{StaticResource BtnBlue}" />
+                        <Button
+                            Click="BtnReset_Click"
+                            Content="🔄  Сброс"
+                            Style="{StaticResource BtnRed}" />
+                    </UniformGrid>
 
                     <Border
                         Background="{StaticResource BorderColor}"
                         Height="1"
-                        Margin="0,12,0,20" />
+                        Margin="0,8,0,16" />
 
-
+                    <!--  Настройки  -->
                     <TextBlock
                         Margin="0,0,0,8"
                         Style="{StaticResource LabelText}"
                         Text="НАСТРОЙКИ" />
 
-                    <TextBlock Style="{StaticResource LabelText}" Text="Размер поля" />
-                    <TextBox x:Name="SizeTextBox" />
+                    <StackPanel Margin="0,0,0,12">
+                        <TextBlock Style="{StaticResource LabelText}" Text="Размер клеток" />
+                        <TextBox Text="{Binding DisplaySettings.CellSize}" x:Name="SizeTextBox" />
+                    </StackPanel>
 
-                    <TextBlock Style="{StaticResource LabelText}" Text="Плотность клеток" />
-                    <TextBox x:Name="DensityTextBox" />
+                    <StackPanel Margin="0,0,0,12">
+                        <TextBlock Style="{StaticResource LabelText}" Text="Плотность клеток" />
+                        <TextBox x:Name="DensityTextBox" />
+                    </StackPanel>
 
-                    <TextBlock Style="{StaticResource LabelText}" Text="Скорость симуляции" />
-                    <Slider
-                        IsSnapToTickEnabled="True"
-                        Maximum="100"
-                        Minimum="1"
-                        TickFrequency="10"
-                        Value="50"
-                        x:Name="SpeedSlider" />
-
+                    <!--  Слайдер скорости  -->
+                    <StackPanel Margin="0,0,0,16">
+                        <TextBlock Style="{StaticResource LabelText}" Text="Скорость симуляции" />
+                        <Slider
+                            Height="28"
+                            IsSnapToTickEnabled="True"
+                            Margin="0,4,0,0"
+                            Maximum="100"
+                            Minimum="1"
+                            TickFrequency="10"
+                            ToolTip="Изменяет скорость обновления поколений"
+                            Value="50"
+                            x:Name="SpeedSlider" />
+                        <TextBlock
+                            FontSize="11"
+                            HorizontalAlignment="Right"
+                            Margin="0,2,0,0"
+                            Opacity="0.7"
+                            Style="{StaticResource LabelText}"
+                            Text="{Binding ElementName=SpeedSlider, Path=Value, StringFormat='Текущее значение: {0:F0}'}" />
+                    </StackPanel>
 
                     <Border
                         Background="{StaticResource BorderColor}"
                         Height="1"
-                        Margin="0,8,0,20" />
+                        Margin="0,8,0,16" />
 
-
+                    <!--  Визуализация  -->
                     <TextBlock
                         Margin="0,0,0,8"
                         Style="{StaticResource LabelText}"
                         Text="ВИЗУАЛИЗАЦИЯ" />
 
-                    <CheckBox Content="Дополнительные цвета" x:Name="ColorCheckBox" />
+                    <CheckBox
+                        Content="Дополнительные цвета"
+                        Margin="0,0,0,8"
+                        x:Name="ColorCheckBox" />
 
                     <TextBlock Style="{StaticResource LabelText}" Text="Цветовая схема" />
-                    <ComboBox x:Name="ThemeComboBox">
+                    <ComboBox Margin="0,2,0,12" x:Name="ThemeComboBox">
                         <ComboBoxItem Content="Classic" IsSelected="True" />
                         <ComboBoxItem Content="Neon" />
                         <ComboBoxItem Content="Grayscale" />
                     </ComboBox>
 
-
                     <Border
                         Background="{StaticResource BorderColor}"
                         Height="1"
-                        Margin="0,8,0,20" />
+                        Margin="0,8,0,16" />
 
-
+                    <!--  Правила  -->
                     <TextBlock
                         Margin="0,0,0,8"
                         Style="{StaticResource LabelText}"
                         Text="ПРАВИЛА ИГРЫ" />
-
-                    <TextBlock Style="{StaticResource LabelText}" Text="Клетка выживает, если соседей" />
-                    <TextBox Text="2,3" x:Name="SurviveTextBox" />
-
-                    <TextBlock Style="{StaticResource LabelText}" Text="Клетка рождается, если соседей" />
+                    <TextBlock Style="{StaticResource LabelText}" Text="Клетка выживает, если соседей:" />
+                    <TextBox
+                        Margin="0,2,0,8"
+                        Text="2,3"
+                        x:Name="SurviveTextBox" />
+                    <TextBlock Style="{StaticResource LabelText}" Text="Клетка рождается, если соседей:" />
                     <TextBox Text="3" x:Name="BornTextBox" />
-
 
                     <Border
                         Background="{StaticResource BorderColor}"
                         Height="1"
-                        Margin="0,8,0,20" />
+                        Margin="0,12,0,16" />
 
-
+                    <!--  Импорт  -->
                     <TextBlock
                         Margin="0,0,0,8"
                         Style="{StaticResource LabelText}"
                         Text="ИМПОРТ" />
-
                     <Button Content="📂  Открыть паттерн" x:Name="OpenButton" />
-
                 </StackPanel>
             </ScrollViewer>
         </Border>
 
-
+        <!--  Область визуализации  -->
         <Border
             Background="#0A0C10"
             Grid.Column="1"
@@ -151,6 +171,9 @@
                 BorderBrush="{StaticResource BorderColor}"
                 BorderThickness="1"
                 CornerRadius="8"
+                Effect="{DynamicResource DropShadow}"
+                Padding="8"
+                SnapsToDevicePixels="True"
                 x:Name="GameBorder">
                 <Image
                     HorizontalAlignment="Center"
@@ -159,6 +182,5 @@
                     x:Name="Field" />
             </Border>
         </Border>
-
     </Grid>
 </Window>
