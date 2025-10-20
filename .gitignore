@@ -1,0 +1,58 @@
+# Build results
+bin/
+obj/
+out/
+[Bb]uild/
+[Ll]ogs/
+[Tt]emp/
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+project.lock.json
+project.assets.json
+packages/
+*.tmp
+*.bak
+*.log
+
+# Cache
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+*.cache
+*.dbmdl
+*.pdb
+*.mdb
+
+# Configs / runtime
+launchSettings.json
+appsettings.Development.json
+
+# Other temp
+*.tmp
+*.bak
+*.swp
+*.DS_Store
+Thumbs.db
+
+# Publish outputs
+publish/
+dist/
+artifacts/
+*.Publish.xml
+
+# Optional: ignore user data files
+*.userprefs
