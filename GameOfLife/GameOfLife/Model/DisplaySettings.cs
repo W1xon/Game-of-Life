@@ -2,8 +2,8 @@
 
 public class DisplaySettings
 {
-    public int WindowWidth { get; }
-    public int WindowHeight { get; }
+    public int Width { get; }
+    public int Height { get; }
     public int CellSize { get; }
 
     public Vector MapSize { get; private set; }
@@ -11,16 +11,16 @@ public class DisplaySettings
     public int MapWidthPx => MapSize.Y * CellSize;
     public int MapHeightPx => MapSize.X * CellSize;
 
-    public DisplaySettings(int windowWidth, int windowHeight, int cellSize)
+    public DisplaySettings(int width, int height, int cellSize)
     {
-        WindowWidth = windowWidth;
-        WindowHeight = windowHeight;
+        Width = width;
+        Height = height;
         CellSize = cellSize;
-        MapSize = new Vector(windowHeight / cellSize, windowWidth / cellSize);
+        MapSize = new Vector(width / cellSize, height / cellSize);
     }
 
     public override string ToString()
     {
-        return $"Window: {WindowWidth}x{WindowHeight}px | CellType: {CellSize}px | Map: {MapSize.X}x{MapSize.Y} ({MapWidthPx}x{MapHeightPx}px)";
+        return $"Window: {Width}x{Height}px | CellType: {CellSize}px | Map: {MapSize.X}x{MapSize.Y} ({MapWidthPx}x{MapHeightPx}px)";
     }
 }

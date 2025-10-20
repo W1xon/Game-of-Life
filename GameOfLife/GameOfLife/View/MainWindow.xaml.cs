@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using GameOfLife.Model;
@@ -11,23 +12,50 @@ namespace GameOfLife.View;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private readonly Game _game;
-    private readonly RenderingService _renderingService;
-    private readonly DisplaySettings _displaySettings;
-    private readonly TileMap _tileMap;
+    private  Game _game;
+    private  RenderingService _renderingService;
+    private  DisplaySettings _displaySettings;
+    private  TileMap _tileMap;
     private DispatcherTimer _updateTimer;
     public MainWindow()
     {
         InitializeComponent();
+    
+        GameBorder.Loaded += OnGameAreaLoaded;
+    }
 
-        int width = 800;
-        int height = 800;
-        _displaySettings = new DisplaySettings(width,height, 3);
-        var bitmap = new WriteableBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null);
+    private void OnGameAreaLoaded(object sender, RoutedEventArgs e)
+    {
+        int width = (int)GameBorder.ActualWidth ;
+        int height = (int)GameBorder.ActualHeight ;
+    
+        if (width <= 0 || height <= 0)
+        {
+            MessageBox.Show("Failed to get game area size");
+            return;
+        }
+    
+        InitializeGame(width, height);
+    }
+
+    private void InitializeGame(int width, int height)
+    {
+        _displaySettings = new DisplaySettings(width, height, cellSize: 5);
+    
+        var bitmap = new WriteableBitmap(
+            _displaySettings.Width, 
+            _displaySettings.Height, 
+            96, 96, 
+            PixelFormats.Bgra32, 
+            null
+        );
+    
         Field.Source = bitmap;
-        _renderingService = new RenderingService(bitmap, Field, _displaySettings);
+    
+        _renderingService = new RenderingService(bitmap, _displaySettings);
         _tileMap = new TileMap(_displaySettings.MapSize);
         _game = new Game(_renderingService, _tileMap);
+    
         InitializeGameLoop();
     }
 
@@ -40,7 +68,6 @@ public partial class MainWindow : Window
         _updateTimer.Tick += (_, _) =>
         {
             _game.Update();
-            _renderingService.Refresh();
         };
         _updateTimer.Start();
     }

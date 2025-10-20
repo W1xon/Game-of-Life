@@ -1,7 +1,6 @@
 ﻿<Window
-    Background="#1E1E1E"
+    Background="{StaticResource BgDark}"
     Height="500"
-    ResizeMode="NoResize"
     Title="Game of Life"
     Width="900"
     WindowState="Maximized"
@@ -19,61 +18,61 @@
         </Grid.ColumnDefinitions>
 
         <!--  Панель управления  -->
-        <StackPanel Background="#2A2A2A" Grid.Column="0">
+        <StackPanel Background="{StaticResource BgPanel}" Grid.Column="0">
             <TextBlock
                 FontSize="16"
                 FontWeight="Bold"
-                Foreground="White"
                 HorizontalAlignment="Center"
-                Margin="0,0,0,10"
+                Margin="0,10,0,10"
                 Text="Game Controls" />
 
             <Button
-                Background="#3C8C40"
                 Click="BtnStart_Click"
                 Content="▶ Start"
-                FontWeight="Bold"
-                Foreground="White"
-                Height="35"
-                x:Name="BtnStart" />
-
+                Style="{StaticResource BtnGreen}" />
             <Button
-                Background="#C39B2E"
                 Click="BtnPause_Click"
                 Content="⏸ Pause"
-                FontWeight="Bold"
-                Foreground="White"
-                Height="35"
-                x:Name="BtnPause" />
-
+                Style="{StaticResource BtnGold}" />
             <Button
-                Background="#2E77C3"
                 Click="BtnResume_Click"
                 Content="⏯ Resume"
-                FontWeight="Bold"
-                Foreground="White"
-                Height="35"
-                x:Name="BtnResume" />
-
+                Style="{StaticResource BtnBlue}" />
             <Button
-                Background="#C32E2E"
                 Click="BtnReset_Click"
                 Content="🔄 Reset"
-                FontWeight="Bold"
-                Foreground="White"
-                Height="35"
-                x:Name="BtnReset" />
+                Style="{StaticResource BtnRed}" />
+
+            <TextBlock Text="Размер" />
+            <TextBox />
+            <TextBlock Text="Плотность" />
+            <TextBox />
+            <Slider />
+            <CheckBox Content="Дополнительные цвета" />
+            <ComboBox>
+                <ComboBoxItem Content="Classic" />
+                <ComboBoxItem Content="Neon" />
+                <ComboBoxItem Content="Grayscale" />
+            </ComboBox>
+
+            <TextBlock Text="Живет если" />
+            <TextBox />
+            <TextBlock Text="Умирает если" />
+            <TextBox />
+
+            <TextBlock Text="Импорт" />
+            <Button Content="📂 Открыть" />
         </StackPanel>
 
-        <!--  Поле игры  -->
         <Border
             Background="#101010"
             Grid.Column="1"
-            Margin="5">
+            Margin="5"
+            x:Name="GameBorder">
             <Image
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Left"
                 Stretch="None"
-                VerticalAlignment="Center"
+                VerticalAlignment="Top"
                 x:Name="Field" />
         </Border>
     </Grid>

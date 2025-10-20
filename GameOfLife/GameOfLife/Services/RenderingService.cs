@@ -13,13 +13,11 @@ namespace GameOfLife.Services
         private readonly DisplaySettings _displaySettings;
         private readonly Dictionary<int, IColorStrategy> _colorStrategies;
         private readonly int _stride;
-        private readonly System.Windows.Controls.Image _targetImage;
 
-        public RenderingService(WriteableBitmap bitmap, System.Windows.Controls.Image targetImage, DisplaySettings displaySettings)
+        public RenderingService(WriteableBitmap bitmap, DisplaySettings displaySettings)
         {
             _bitmap = bitmap;
             _displaySettings = displaySettings;
-            _targetImage = targetImage;
             _stride = bitmap.PixelWidth * (bitmap.Format.BitsPerPixel / 8);
             _colorStrategies = InitializeStrategies();
         }
@@ -80,7 +78,6 @@ namespace GameOfLife.Services
                 }
             }
 
-            // один общий dirty rect на всё поле
             _bitmap.AddDirtyRect(new Int32Rect(0, 0, _bitmap.PixelWidth, _bitmap.PixelHeight));
             _bitmap.Unlock();
         }
@@ -98,17 +95,6 @@ namespace GameOfLife.Services
                 return strategy.CalculateColor(position, _displaySettings.MapSize);
 
             return _colorStrategies[1].CalculateColor(position, _displaySettings.MapSize);
-        }
-
-        public void Refresh()
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                _bitmap.Lock();
-                _bitmap.AddDirtyRect(new Int32Rect(0, 0, _bitmap.PixelWidth, _bitmap.PixelHeight));
-                _bitmap.Unlock();
-                _targetImage.Source = _bitmap;
-            });
         }
     }
 }
