@@ -8,8 +8,9 @@ public class Game
     private StateMachine _stateMachine;
 
     private TileMap _tileMap;
-    private RunningBaseGameState _running;
-    private PausedBaseGameState _paused;
+    private RunningState _running;
+    private PausedState _paused;
+    private StopedState _stopped;
     private GameSettings _gameSettings;
     public Game(RenderingService renderingService, TileMap tileMap)
     {
@@ -17,16 +18,20 @@ public class Game
         _stateMachine = new StateMachine();
         _gameSettings = new GameSettings();
         _renderingService = renderingService;
-        _tileMap.InitializeMap(false);
         
-        _running = new RunningBaseGameState(_tileMap, _gameSettings);
-        _paused = new PausedBaseGameState(_tileMap, _gameSettings);
+        _running = new RunningState(_tileMap, _gameSettings);
+        _paused = new PausedState(_tileMap, _gameSettings);
+        _stopped = new StopedState(_tileMap, _gameSettings);
     }
 
-    public void Start() => _stateMachine.SetState(_running);
+    public void Start()
+    {
+        _tileMap.InitializeMap(false);
+        _stateMachine.SetState(_running);
+    }
     public void Pause() => _stateMachine.SetState(_paused);
     public void Resume() => _stateMachine.SetState(_running);
-    //public void Stop() => _stateMachine.SetState(_stopped);
+    private void Stop() => _stateMachine.SetState(_stopped);
     public void Update()
     {
         _stateMachine.Update();
@@ -35,6 +40,7 @@ public class Game
 
     public void Reset()
     {
+        Stop();
         
     }
 }

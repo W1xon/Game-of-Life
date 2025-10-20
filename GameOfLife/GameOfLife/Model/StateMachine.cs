@@ -19,7 +19,7 @@ public class StateMachine
 
     public void SetState(BaseGameState newState)
     {
-        if ((CurrentState != null && !CurrentState.CanTransitionTo(newState)) || CurrentState == newState)
+        if ((CurrentState != null && !CurrentState.CanTransitionTo(newState)))
         {
             Console.WriteLine($"Cannot transition from {CurrentState.GetType().Name} to {newState.GetType().Name}");
             return;

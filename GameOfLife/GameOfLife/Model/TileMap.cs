@@ -42,7 +42,6 @@
                 }
             }
         }
-
         public KeyValuePair<int, int> GetCountNeighbours(Vector position, int cellsCountType)
         {
             if (_neighbourCountsCache.Length < cellsCountType)

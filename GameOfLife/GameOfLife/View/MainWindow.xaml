@@ -1,8 +1,10 @@
 ﻿<Window
     Background="#1E1E1E"
     Height="500"
+    ResizeMode="NoResize"
     Title="Game of Life"
     Width="900"
+    WindowState="Maximized"
     mc:Ignorable="d"
     x:Class="GameOfLife.View.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -16,6 +18,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <!--  Панель управления  -->
         <StackPanel Background="#2A2A2A" Grid.Column="0">
             <TextBlock
                 FontSize="16"
@@ -34,9 +37,35 @@
                 Height="35"
                 x:Name="BtnStart" />
 
+            <Button
+                Background="#C39B2E"
+                Click="BtnPause_Click"
+                Content="⏸ Pause"
+                FontWeight="Bold"
+                Foreground="White"
+                Height="35"
+                x:Name="BtnPause" />
 
+            <Button
+                Background="#2E77C3"
+                Click="BtnResume_Click"
+                Content="⏯ Resume"
+                FontWeight="Bold"
+                Foreground="White"
+                Height="35"
+                x:Name="BtnResume" />
+
+            <Button
+                Background="#C32E2E"
+                Click="BtnReset_Click"
+                Content="🔄 Reset"
+                FontWeight="Bold"
+                Foreground="White"
+                Height="35"
+                x:Name="BtnReset" />
         </StackPanel>
 
+        <!--  Поле игры  -->
         <Border
             Background="#101010"
             Grid.Column="1"
