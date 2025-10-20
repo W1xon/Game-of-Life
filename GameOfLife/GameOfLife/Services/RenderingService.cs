@@ -11,7 +11,6 @@ namespace GameOfLife.Services
     {
         private readonly WriteableBitmap _bitmap;
         private readonly DisplaySettings _displaySettings;
-        private readonly Dictionary<int, IColorStrategy> _colorStrategies;
         private readonly int _stride;
 
         public RenderingService(WriteableBitmap bitmap, DisplaySettings displaySettings)
@@ -19,29 +18,10 @@ namespace GameOfLife.Services
             _bitmap = bitmap;
             _displaySettings = displaySettings;
             _stride = bitmap.PixelWidth * (bitmap.Format.BitsPerPixel / 8);
-            _colorStrategies = InitializeStrategies();
         }
 
-        private Dictionary<int, IColorStrategy> InitializeStrategies()
-        {
-            return new Dictionary<int, IColorStrategy>
-            {
-                { 1, new GradientXGrayStrategy() },
-                { 2, new GradientXModifiedGreenStrategy() },
-                { 3, new GradientXHalfRedBlueStrategy() },
-                { 4, new CoordinateProductModuloStrategy() },
-                { 5, new CoordinateProductModifiedGreenStrategy() },
-                { 6, new CoordinateProductHalfRedBlueStrategy() },
-                { 7, new TrigonometricYStrategy() },
-                { 8, new TrigonometricXStrategy() },
-                { 9, new TrigonometricMixedStrategy() },
-                { 10, new GradientXYBlueStrategy() },
-                { 11, new GradientXYGreenStrategy() },
-                { 12, new GradientXYRedStrategy() }
-            };
-        }
 
-        public unsafe void DrawField(TileMap tileMap)
+        public unsafe void DrawField(TileMap tileMap, IColorStrategy colorStrategy = null)
         {
             int cellSize = _displaySettings.CellSize;
             int width = tileMap.Size.X;
@@ -55,8 +35,11 @@ namespace GameOfLife.Services
                 for (int xCell = 0; xCell < width; xCell++)
                 {
                     int cellId = tileMap.GetCell(new Vector(xCell, yCell));
-                    var color = CellTypeRegistry.Get(cellId).Color;
-
+                    Color color;
+                    if (colorStrategy == null || cellId == 0)
+                        color = CellTypeRegistry.Get(cellId).Color;
+                    else
+                        color = colorStrategy.CalculateColor(new Vector(xCell,yCell), tileMap.Size);
                     int startX = xCell * cellSize;
                     int startY = yCell * cellSize;
 
@@ -80,21 +63,6 @@ namespace GameOfLife.Services
 
             _bitmap.AddDirtyRect(new Int32Rect(0, 0, _bitmap.PixelWidth, _bitmap.PixelHeight));
             _bitmap.Unlock();
-        }
-
-
-        public void DrawCell(Vector position, Color? color = null, int style = 1)
-        {
-            Color finalColor = color ?? CalculateColor(position, style);
-            DrawCell(position, finalColor);
-        }
-
-        private Color CalculateColor(Vector position, int style)
-        {
-            if (_colorStrategies.TryGetValue(style, out var strategy))
-                return strategy.CalculateColor(position, _displaySettings.MapSize);
-
-            return _colorStrategies[1].CalculateColor(position, _displaySettings.MapSize);
         }
     }
 }

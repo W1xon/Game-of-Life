@@ -4,6 +4,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using GameOfLife.Model;
 using GameOfLife.Services;
+using GameOfLife.Services.ColorStrategies;
 
 namespace GameOfLife.View;
 
@@ -17,6 +18,22 @@ public partial class MainWindow : Window
     private  DisplaySettings _displaySettings;
     private  TileMap _tileMap;
     private DispatcherTimer _updateTimer;
+    private Dictionary<int, IColorStrategy> _colorStrategies=  new Dictionary<int, IColorStrategy>
+        {
+            { 1, new GradientXGrayStrategy() },
+            { 2, new GradientXModifiedGreenStrategy() },
+            { 3, new GradientXHalfRedBlueStrategy() },
+            { 4, new CoordinateProductModuloStrategy() },
+            { 5, new CoordinateProductModifiedGreenStrategy() },
+            { 6, new CoordinateProductHalfRedBlueStrategy() },
+            { 7, new TrigonometricYStrategy() },
+            { 8, new TrigonometricXStrategy() },
+            { 9, new TrigonometricMixedStrategy() },
+            { 10, new GradientXYBlueStrategy() },
+            { 11, new GradientXYGreenStrategy() },
+            { 12, new GradientXYRedStrategy() }
+        };
+    
     public MainWindow()
     {
         InitializeComponent();
@@ -54,7 +71,7 @@ public partial class MainWindow : Window
     
         _renderingService = new RenderingService(bitmap, _displaySettings);
         _tileMap = new TileMap(_displaySettings.MapSize);
-        _game = new Game(_renderingService, _tileMap);
+        _game = new Game( _tileMap);
     
         InitializeGameLoop();
     }
@@ -68,6 +85,7 @@ public partial class MainWindow : Window
         _updateTimer.Tick += (_, _) =>
         {
             _game.Update();
+            _renderingService.DrawField(_tileMap, _colorStrategies[11]);
         };
         _updateTimer.Start();
     }
