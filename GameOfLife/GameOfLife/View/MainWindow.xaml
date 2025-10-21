@@ -11,10 +11,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="320" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -25,95 +24,98 @@
             BorderThickness="0,0,1,0"
             Grid.Column="0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel Margin="20">
+                <StackPanel Margin="24,20">
 
                     <!--  Заголовок  -->
                     <TextBlock
-                        Margin="0,0,0,16"
+                        Margin="0,0,0,24"
                         Style="{StaticResource HeaderText}"
                         Text="Game of Life" />
 
                     <!--  Управление  -->
                     <TextBlock
-                        Margin="0,0,0,8"
+                        Margin="0,0,0,10"
                         Style="{StaticResource LabelText}"
                         Text="УПРАВЛЕНИЕ" />
 
                     <UniformGrid
                         Columns="2"
-                        HorizontalAlignment="Stretch"
-                        Margin="0,0,0,12"
+                        Margin="0,0,0,20"
                         Rows="2">
                         <Button
                             Click="BtnStart_Click"
                             Content="▶  Старт"
+                            Margin="0,0,4,4"
                             Style="{StaticResource BtnGreen}" />
                         <Button
                             Click="BtnPause_Click"
                             Content="⏸  Пауза"
+                            Margin="4,0,0,4"
                             Style="{StaticResource BtnGold}" />
                         <Button
                             Click="BtnResume_Click"
                             Content="⏯  Продолжить"
+                            Margin="0,4,4,0"
                             Style="{StaticResource BtnBlue}" />
                         <Button
                             Click="BtnReset_Click"
                             Content="🔄  Сброс"
+                            Margin="4,4,0,0"
                             Style="{StaticResource BtnRed}" />
                     </UniformGrid>
 
-                    <Border
-                        Background="{StaticResource BorderColor}"
-                        Height="1"
-                        Margin="0,8,0,16" />
+                    <Separator Margin="0,0,0,20" />
 
                     <!--  Настройки  -->
                     <TextBlock
-                        Margin="0,0,0,8"
+                        Margin="0,0,0,10"
                         Style="{StaticResource LabelText}"
                         Text="НАСТРОЙКИ" />
 
-                    <StackPanel Margin="0,0,0,12">
-                        <TextBlock Style="{StaticResource LabelText}" Text="Размер клеток" />
-                        <TextBox Text="{Binding DisplaySettings.CellSize}" x:Name="SizeTextBox" />
-                    </StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,4"
+                        Style="{StaticResource LabelText}"
+                        Text="Размер клеток" />
+                    <TextBox
+                        Margin="0,0,0,12"
+                        Text="{Binding DisplaySettings.CellSize}"
+                        x:Name="SizeTextBox" />
 
-                    <StackPanel Margin="0,0,0,12">
-                        <TextBlock Style="{StaticResource LabelText}" Text="Плотность клеток" />
-                        <TextBox x:Name="DensityTextBox" />
-                    </StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,4"
+                        Style="{StaticResource LabelText}"
+                        Text="Плотность клеток" />
+                    <TextBox Margin="0,0,0,12" x:Name="DensityTextBox" />
 
                     <!--  Слайдер скорости  -->
-                    <StackPanel Margin="0,0,0,16">
-                        <TextBlock Style="{StaticResource LabelText}" Text="Скорость симуляции" />
-                        <Slider
-                            Height="28"
-                            IsSnapToTickEnabled="True"
-                            Margin="0,4,0,0"
-                            Maximum="100"
-                            Minimum="1"
-                            TickFrequency="10"
-                            ToolTip="Изменяет скорость обновления поколений"
-                            Value="1"
-                            ValueChanged="SpeedSlider_ValueChanged"
-                            x:Name="SpeedSlider" />
-                        <TextBlock
-                            FontSize="11"
-                            HorizontalAlignment="Right"
-                            Margin="0,2,0,0"
-                            Opacity="0.7"
-                            Style="{StaticResource LabelText}"
-                            Text="{Binding ElementName=SpeedSlider, Path=Value, StringFormat='Текущее значение: {0:F0}'}" />
-                    </StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,4"
+                        Style="{StaticResource LabelText}"
+                        Text="Скорость симуляции" />
+                    <Slider
+                        Height="28"
+                        IsSnapToTickEnabled="True"
+                        Margin="0,0,0,4"
+                        Maximum="100"
+                        Minimum="1"
+                        TickFrequency="10"
+                        ToolTip="Изменяет скорость обновления поколений"
+                        Value="1"
+                        ValueChanged="SpeedSlider_ValueChanged"
+                        x:Name="SpeedSlider" />
+                    <TextBlock
+                        FontSize="11"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,0,16"
+                        Opacity="0.7"
+                        Style="{StaticResource LabelText}"
+                        Text="{Binding ElementName=SpeedSlider, Path=Value, StringFormat='Текущее значение: {0:F0}'}" />
 
-                    <Border
-                        Background="{StaticResource BorderColor}"
-                        Height="1"
-                        Margin="0,8,0,16" />
+                    <Separator Margin="0,0,0,20" />
 
                     <!--  Визуализация  -->
                     <TextBlock
-                        Margin="0,0,0,8"
+                        Margin="0,0,0,10"
                         Style="{StaticResource LabelText}"
                         Text="ВИЗУАЛИЗАЦИЯ" />
 
@@ -121,63 +123,71 @@
                         Content="Рендеринг по клеткам"
                         Cursor="Help"
                         IsChecked="{Binding DisplaySettings.UseCellRendering}"
-                        Margin="0,0,0,8">
+                        Margin="0,0,0,10">
                         <CheckBox.ToolTip>
                             <ToolTip Content="При отключении — отрисовка идёт по каждому пикселю, что может значительно снизить производительность." />
                         </CheckBox.ToolTip>
                     </CheckBox>
 
-
                     <CheckBox
                         Content="Дополнительные цвета"
                         IsChecked="{Binding UseAdditionalColors}"
-                        Margin="0,0,0,8"
+                        Margin="0,0,0,12"
                         x:Name="ColorCheckBox" />
 
                     <TextBlock
+                        Margin="0,0,0,4"
                         Style="{StaticResource LabelText}"
                         Text="Цветовая схема"
                         Visibility="{Binding UseAdditionalColors, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     <ComboBox
                         ItemsSource="{Binding DisplaySettings.ColorStrategyNames}"
-                        Margin="0,2,0,12"
+                        Margin="0,0,0,16"
                         SelectedItem="{Binding DisplaySettings.CurrentColorStrategyName, Mode=TwoWay}"
                         Visibility="{Binding UseAdditionalColors, Converter={StaticResource BooleanToVisibilityConverter}}"
                         x:Name="ThemeComboBox" />
 
+                    <Separator Margin="0,0,0,20" />
 
-                    <Border
-                        Background="{StaticResource BorderColor}"
-                        Height="1"
-                        Margin="0,8,0,16" />
                     <!--  Правила  -->
                     <TextBlock
-                        Margin="0,0,0,8"
+                        Margin="0,0,0,10"
                         Style="{StaticResource LabelText}"
                         Text="ПРАВИЛА ИГРЫ" />
+
                     <Button
                         Click="OpenNewCellWindow_Click"
                         Content="➕  Создать новую клетку"
+                        Margin="0,0,0,12"
                         Style="{StaticResource BtnBlue}" />
-                    <TextBlock Style="{StaticResource LabelText}" Text="Клетка выживает, если соседей:" />
+
+                    <TextBlock
+                        Margin="0,0,0,4"
+                        Style="{StaticResource LabelText}"
+                        Text="Клетка выживает, если соседей:" />
                     <TextBox
-                        Margin="0,2,0,8"
+                        Margin="0,0,0,12"
                         Text="{Binding MainCellType.BirthRules}"
                         x:Name="SurviveTextBox" />
-                    <TextBlock Style="{StaticResource LabelText}" Text="Клетка рождается, если соседей:" />
-                    <TextBox Text="{Binding MainCellType.SurvivalRules}" x:Name="BornTextBox" />
 
-                    <Border
-                        Background="{StaticResource BorderColor}"
-                        Height="1"
-                        Margin="0,12,0,16" />
+                    <TextBlock
+                        Margin="0,0,0,4"
+                        Style="{StaticResource LabelText}"
+                        Text="Клетка рождается, если соседей:" />
+                    <TextBox
+                        Margin="0,0,0,16"
+                        Text="{Binding MainCellType.SurvivalRules}"
+                        x:Name="BornTextBox" />
+
+                    <Separator Margin="0,0,0,20" />
 
                     <!--  Импорт  -->
                     <TextBlock
-                        Margin="0,0,0,8"
+                        Margin="0,0,0,10"
                         Style="{StaticResource LabelText}"
                         Text="ИМПОРТ" />
                     <Button Content="📂  Открыть паттерн" x:Name="OpenButton" />
+
                 </StackPanel>
             </ScrollViewer>
         </Border>
@@ -186,7 +196,7 @@
         <Border
             Background="#0A0C10"
             Grid.Column="1"
-            Margin="12">
+            Padding="16">
             <Border
                 Background="{StaticResource BgCard}"
                 BorderBrush="{StaticResource BorderColor}"
