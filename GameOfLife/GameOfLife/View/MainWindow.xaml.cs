@@ -100,4 +100,11 @@ public partial class MainWindow : Window
     {
         _game.Reset();
     }
+    private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+     {
+         if (_updateTimer != null)
+         {
+             _updateTimer.Interval = TimeSpan.FromMilliseconds(SpeedSlider.Value);
+         }
+     }
 }

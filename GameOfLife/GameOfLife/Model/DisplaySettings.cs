@@ -14,9 +14,10 @@ namespace GameOfLife.Model
         private string _currentColorStrategyName;
         private ColorStrategyBase _colorStrategy;
         public event Action<Vector>? MapSizeChanged;
-        
-        public ObservableCollection<string> ColorStrategyNames { get; } = new()
-        {
+
+        public ObservableCollection<string> ColorStrategyNames { get; } =
+        [
+            "Base",
             "Gray Gradient",
             "Modified Green Gradient",
             "Half Red Blue Gradient",
@@ -29,7 +30,7 @@ namespace GameOfLife.Model
             "Gradient XY Blue",
             "Gradient XY Green",
             "Gradient XY Red"
-        };
+        ];
 
         public int Width
         {
@@ -74,7 +75,7 @@ namespace GameOfLife.Model
                 Set(ref _currentColorStrategyName, value);
                 var index = ColorStrategyNames.IndexOf(value);
                 if (index >= 0)
-                    ColorStrategy = ColorStrategyRegistry.Get(index + 1); // +1, если реестр начинается с 1
+                    ColorStrategy = ColorStrategyRegistry.Get(index);
             }
 
         }
@@ -98,6 +99,7 @@ namespace GameOfLife.Model
             _width = width;
             _height = height;
             _cellSize = cellSize;
+            CurrentColorStrategyName = ColorStrategyNames[0];
             UpdateMapSize();
         }
 

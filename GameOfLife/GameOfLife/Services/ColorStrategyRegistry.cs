@@ -4,8 +4,9 @@ namespace GameOfLife.Services;
 
 public static class ColorStrategyRegistry
 {
-    private static Dictionary<int, ColorStrategyBase> _colorStrategies=  new Dictionary<int, ColorStrategyBase>
+    private static readonly Dictionary<int, ColorStrategyBase> _colorStrategies =  new()
     {
+        { 0, new StandartStrategy() },
         { 1, new GradientXGrayStrategy() },
         { 2, new GradientXModifiedGreenStrategy() },
         { 3, new GradientXHalfRedBlueStrategy() },

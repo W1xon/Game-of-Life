@@ -1,6 +1,4 @@
-﻿using GameOfLife.Services;
-
-namespace GameOfLife.Model;
+﻿namespace GameOfLife.Model;
 
 public class Game
 {
