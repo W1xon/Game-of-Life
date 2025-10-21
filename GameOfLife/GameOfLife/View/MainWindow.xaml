@@ -117,16 +117,26 @@
                         Text="ВИЗУАЛИЗАЦИЯ" />
 
                     <CheckBox
+                        Content="Рендеринг по клеткам"
+                        IsChecked="{Binding DisplaySettings.UseCellRendering}"
+                        Margin="0,0,0,8">
+                        <CheckBox.ToolTip>
+                            <ToolTip Content="При отключении — отрисовка идёт по каждому пикселю, что может значительно снизить производительность." />
+                        </CheckBox.ToolTip>
+                    </CheckBox>
+
+
+                    <CheckBox
                         Content="Дополнительные цвета"
                         Margin="0,0,0,8"
                         x:Name="ColorCheckBox" />
 
                     <TextBlock Style="{StaticResource LabelText}" Text="Цветовая схема" />
-                    <ComboBox Margin="0,2,0,12" x:Name="ThemeComboBox">
-                        <ComboBoxItem Content="Classic" IsSelected="True" />
-                        <ComboBoxItem Content="Neon" />
-                        <ComboBoxItem Content="Grayscale" />
-                    </ComboBox>
+                    <ComboBox
+                        ItemsSource="{Binding DisplaySettings.ColorStrategyNames}"
+                        Margin="0,2,0,12"
+                        SelectedItem="{Binding DisplaySettings.CurrentColorStrategyName, Mode=TwoWay}"
+                        x:Name="ThemeComboBox" />
 
                     <Border
                         Background="{StaticResource BorderColor}"

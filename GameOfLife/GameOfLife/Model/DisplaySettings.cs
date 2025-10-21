@@ -1,14 +1,35 @@
-﻿namespace GameOfLife.Model
+﻿using System.Collections.ObjectModel;
+using GameOfLife.Services;
+using GameOfLife.Services.ColorStrategies;
+
+namespace GameOfLife.Model
 {
     public class DisplaySettings : ObservableObject
     {
         private int _width;
         private int _height;
         private int _cellSize;
+        private bool _useCellRendering;
         private Vector _mapSize;
-
-        // Событие при изменении размеров карты
+        private string _currentColorStrategyName;
+        private ColorStrategyBase _colorStrategy;
         public event Action<Vector>? MapSizeChanged;
+        
+        public ObservableCollection<string> ColorStrategyNames { get; } = new()
+        {
+            "Gray Gradient",
+            "Modified Green Gradient",
+            "Half Red Blue Gradient",
+            "Coordinate Product Modulo",
+            "Coordinate Product Modified Green",
+            "Coordinate Product Half Red Blue",
+            "Trigonometric Y",
+            "Trigonometric X",
+            "Trigonometric Mixed",
+            "Gradient XY Blue",
+            "Gradient XY Green",
+            "Gradient XY Red"
+        };
 
         public int Width
         {
@@ -39,7 +60,30 @@
                 UpdateMapSize();
             }
         }
+        public bool UseCellRendering
+        {
+            get => _useCellRendering;
+            set => Set(ref _useCellRendering, value);
+        }
 
+        public string CurrentColorStrategyName
+        {
+            get => _currentColorStrategyName;
+            set
+            {
+                Set(ref _currentColorStrategyName, value);
+                var index = ColorStrategyNames.IndexOf(value);
+                if (index >= 0)
+                    ColorStrategy = ColorStrategyRegistry.Get(index + 1); // +1, если реестр начинается с 1
+            }
+
+        }
+
+        public ColorStrategyBase ColorStrategy
+        {
+            get => _colorStrategy;
+            set => Set(ref _colorStrategy, value);
+        }
         public Vector MapSize
         {
             get => _mapSize;

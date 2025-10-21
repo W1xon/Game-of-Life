@@ -5,5 +5,5 @@ namespace GameOfLife.Services.ColorStrategies;
 
 public interface IColorStrategy
 {
-    Color CalculateColor(Vector position, Vector sizeTileMap);
+    public Color CalculateColor(Vector position, Vector sizeTileMap);
 }

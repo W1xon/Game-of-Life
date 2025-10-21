@@ -18,21 +18,6 @@ public partial class MainWindow : Window
     private  RenderingService _renderingService;
     private  TileMap _tileMap;
     private DispatcherTimer _updateTimer;
-    private Dictionary<int, IColorStrategy> _colorStrategies=  new Dictionary<int, IColorStrategy>
-        {
-            { 1, new GradientXGrayStrategy() },
-            { 2, new GradientXModifiedGreenStrategy() },
-            { 3, new GradientXHalfRedBlueStrategy() },
-            { 4, new CoordinateProductModuloStrategy() },
-            { 5, new CoordinateProductModifiedGreenStrategy() },
-            { 6, new CoordinateProductHalfRedBlueStrategy() },
-            { 7, new TrigonometricYStrategy() },
-            { 8, new TrigonometricXStrategy() },
-            { 9, new TrigonometricMixedStrategy() },
-            { 10, new GradientXYBlueStrategy() },
-            { 11, new GradientXYGreenStrategy() },
-            { 12, new GradientXYRedStrategy() }
-        };
     
     public MainWindow()
     {
@@ -59,6 +44,7 @@ public partial class MainWindow : Window
     private void InitializeGame(int width, int height)
     {
         MainViewModel.Instance.DisplaySettings = new DisplaySettings(width, height, cellSize: 5);
+        MainViewModel.Instance.DisplaySettings.UseCellRendering = true;
         MainViewModel.Instance.DisplaySettings.MapSizeChanged += size =>
         {
             _renderingService.Clear();
@@ -91,7 +77,7 @@ public partial class MainWindow : Window
         _updateTimer.Tick += (_, _) =>
         {
             _game.Update();
-            _renderingService.DrawField(_tileMap, new PixelWaveStrategy());
+            _renderingService.DrawField(_tileMap);
         };
         _updateTimer.Start();
     }

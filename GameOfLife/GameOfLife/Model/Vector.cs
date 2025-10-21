@@ -1,35 +1,19 @@
-﻿namespace GameOfLife.Model;
-
-public struct Vector
+﻿namespace GameOfLife.Model
 {
-    public int X { get; set; }
-    public int Y { get; set; }
-        
-    public static readonly Vector left = new Vector(-1, 0); 
-    public static readonly Vector right = new Vector(1, 0);
-    public static readonly Vector up = new Vector(0, 1);
-    public static readonly Vector down = new Vector(0, -1);
-    public static readonly Vector zero = new Vector(0, 0);
-    public static readonly Vector one = new Vector(1, 1);
-
-    private static Random _rand = new Random();
-    public Vector(int x, int y)
+    public readonly struct Vector(int x, int y)
     {
-        X = x;
-        Y = y;
-    }
+        public int X { get; } = x;
+        public int Y { get; } = y;
 
-    public static Vector operator +(Vector a, Vector b) => new Vector(a.X + b.X, a.Y + b.Y);
-    public static Vector operator -(Vector a, Vector b) => new Vector(a.X - b.X, a.Y - b.Y);
-    public static bool operator ==(Vector a, Vector b) =>  a.X == b.X && a.Y == b.Y;
-    public static bool operator !=(Vector a, Vector b) =>  !(a.X == b.X && a.Y == b.Y);
-    public static Vector operator *(Vector a, int n) => new Vector(a.X * n, a.Y * n);
-        
-        
-    public static int Distance(Vector a, Vector b)
-    {
-        return (int)Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));
-    }
-    public Vector Abs() => new Vector(Math.Abs(X), Math.Abs(Y));
+        public static Vector operator +(Vector a, Vector b) => new(a.X + b.X, a.Y + b.Y);
+        public static Vector operator -(Vector a, Vector b) => new(a.X - b.X, a.Y - b.Y);
+        public static Vector operator *(Vector a, int n) => new(a.X * n, a.Y * n);
 
+        public override bool Equals(object? obj) => obj is Vector v && X == v.X && Y == v.Y;
+        public bool Equals(Vector other) => X == other.X && Y == other.Y;
+        public override int GetHashCode() => HashCode.Combine(X, Y);
+        public static bool operator ==(Vector a, Vector b) => a.Equals(b);
+        public static bool operator !=(Vector a, Vector b) => !a.Equals(b);
+        public override string ToString() => $"({X}, {Y})";
+    }
 }
