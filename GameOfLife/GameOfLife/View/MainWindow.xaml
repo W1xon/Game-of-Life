@@ -150,12 +150,15 @@
                         Background="{StaticResource BorderColor}"
                         Height="1"
                         Margin="0,8,0,16" />
-
                     <!--  Правила  -->
                     <TextBlock
                         Margin="0,0,0,8"
                         Style="{StaticResource LabelText}"
                         Text="ПРАВИЛА ИГРЫ" />
+                    <Button
+                        Click="OpenNewCellWindow_Click"
+                        Content="➕  Создать новую клетку"
+                        Style="{StaticResource BtnBlue}" />
                     <TextBlock Style="{StaticResource LabelText}" Text="Клетка выживает, если соседей:" />
                     <TextBox
                         Margin="0,2,0,8"

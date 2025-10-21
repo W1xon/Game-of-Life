@@ -9,4 +9,8 @@ public class StandartStrategy : ColorStrategyBase
     {
         return CellTypeRegistry.Get(1).Color;
     }
+    public  Color CalculateColor(Vector position, TileMap tileMap)
+    {
+        return CellTypeRegistry.Get(tileMap.GetCell(position)).Color;
+    }
 }

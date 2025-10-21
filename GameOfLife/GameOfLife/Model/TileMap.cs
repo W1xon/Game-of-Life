@@ -1,4 +1,6 @@
-﻿namespace GameOfLife.Model
+﻿using GameOfLife.ViewModel;
+
+namespace GameOfLife.Model
 {
     public class TileMap
     {
@@ -38,7 +40,7 @@
                 {
                     _current[y, x] = isEmpty
                         ? 0
-                        : (random.Next(10) < 3 ? 1 : 0);
+                        : (random.Next(10) < 3 ? MainViewModel.Instance.MainCellType.ID : 0);
                 }
             }
         }

@@ -100,6 +100,13 @@ public partial class MainWindow : Window
     {
         _game.Reset();
     }
+    private void OpenNewCellWindow_Click(object sender, RoutedEventArgs e)
+    {
+        var editorWindow = new NewCellTypeWindow();
+        editorWindow.DataContext = CellTypeEditorViewModel.Instance;
+        editorWindow.Show();
+    }
+
     private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
      {
          if (_updateTimer != null)

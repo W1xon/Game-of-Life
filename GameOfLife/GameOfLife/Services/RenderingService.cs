@@ -83,8 +83,13 @@ namespace GameOfLife.Services
     
                         if (cellId == 0)
                         {
-                            finalColor = baseColor;
+                            finalColor = CellTypeRegistry.Get(0).Color;
                         }
+                        else if (_displaySettings.ColorStrategy is StandartStrategy standartStrategy)
+                        {
+                            finalColor = standartStrategy.CalculateColor(new Vector(xCell, yCell), tileMap);
+                        }
+
                         else if (_displaySettings.ColorStrategy != null)
                         {
                             finalColor = _displaySettings.ColorStrategy.CalculateColor(
@@ -124,8 +129,15 @@ namespace GameOfLife.Services
                 {
                     int cellId = tileMap.GetCell(new Vector(xCell, yCell));
                     Color color;
-                    if (_displaySettings.ColorStrategy == null || cellId == 0)
-                        color = CellTypeRegistry.Get(cellId).Color;
+                    if (cellId == 0)
+                    {
+                        color = CellTypeRegistry.Get(0).Color;
+                    }
+                    else if (_displaySettings.ColorStrategy is StandartStrategy standartStrategy)
+                    {
+                        color = standartStrategy.CalculateColor(new Vector(xCell, yCell), tileMap);
+                    }
+
                     else
                         color = _displaySettings.ColorStrategy.CalculateColor(new Vector(xCell,yCell), tileMap.Size);
                     int startX = xCell * cellSize;
