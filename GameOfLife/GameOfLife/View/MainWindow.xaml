@@ -159,10 +159,10 @@
                     <TextBlock Style="{StaticResource LabelText}" Text="Клетка выживает, если соседей:" />
                     <TextBox
                         Margin="0,2,0,8"
-                        Text="2,3"
+                        Text="{Binding MainCellType.BirthRules}"
                         x:Name="SurviveTextBox" />
                     <TextBlock Style="{StaticResource LabelText}" Text="Клетка рождается, если соседей:" />
-                    <TextBox Text="3" x:Name="BornTextBox" />
+                    <TextBox Text="{Binding MainCellType.SurvivalRules}" x:Name="BornTextBox" />
 
                     <Border
                         Background="{StaticResource BorderColor}"

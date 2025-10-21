@@ -50,7 +50,7 @@ public partial class MainWindow : Window
             _renderingService.Clear();
             _tileMap.Resize(size);
         };
-
+        MainViewModel.Instance.MainCellType = CellTypeRegistry.Get(1);
         var bitmap = new WriteableBitmap(
             MainViewModel.Instance.DisplaySettings.Width, 
             MainViewModel.Instance.DisplaySettings.Height, 

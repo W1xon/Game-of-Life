@@ -20,7 +20,7 @@ public class RunningState : BaseGameState
             for (int y = 0; y < _tileMap.Size.Y; y++)
             {
                 var position = new Vector(x,y);
-                var neighbourCountsAndType = _tileMap.GetCountNeighbours(position, _gameSettings.Cells.Count());
+                var neighbourCountsAndType = _tileMap.GetCountNeighbours(position, CellTypeRegistry.CountWithoutDead());
                 int hasLife = _tileMap.GetCell(position);
                 int indexCell = _tileMap.GetCell(position) - 1;
                 if (indexCell < 0) indexCell = 0;

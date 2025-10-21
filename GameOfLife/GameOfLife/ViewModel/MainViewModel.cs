@@ -10,6 +10,7 @@ public class MainViewModel : ObservableObject
     private static MainViewModel _instance;
     private DisplaySettings _displaySettings;
     private bool _useAdditionalColors;
+    private CellType _mainCellType;
     public static MainViewModel Instance
     {
         get
@@ -19,6 +20,11 @@ public class MainViewModel : ObservableObject
         }
     }
 
+    public CellType MainCellType
+    {
+        get => _mainCellType;
+        set => Set(ref _mainCellType, value);
+    }
     public DisplaySettings DisplaySettings
     {
         get => _displaySettings;
