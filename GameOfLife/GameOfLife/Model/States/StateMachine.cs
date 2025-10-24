@@ -3,9 +3,9 @@
 
 public class StateMachine
 {
-    private IGameState? _currentState;
+    private BaseGameState? _currentState;
 
-    public IGameState? CurrentState => _currentState;
+    public BaseGameState? CurrentState => _currentState;
 
     public StateMachine()
     {

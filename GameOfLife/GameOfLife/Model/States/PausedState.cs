@@ -1,4 +1,6 @@
-﻿namespace GameOfLife.Model;
+﻿using GameOfLife.ViewModel;
+
+namespace GameOfLife.Model;
 
 public class PausedState : BaseGameState
 {
@@ -18,7 +20,8 @@ public class PausedState : BaseGameState
 
     public override void Update()
     {
-        
+        _tileMap.SetCell(GameSettings.DrawPosition, 
+            MainViewModel.Instance.MainCellType.ID);
     }
 
     public override void Exit()

@@ -19,12 +19,32 @@ namespace GameOfLife.Model
             _next = new int[size.Y, size.X];
         }
 
-        public int GetCell(Vector position) => _current[position.Y, position.X];
-        public void SetCell(Vector position, int cellId) => _current[position.Y, position.X] = cellId;
+        public int GetCell(Vector position)
+        {
+            return !IsInside(position) ? 0 : _current[position.Y, position.X];
+        }
+        public void SetCell(Vector position, int cellId)
+        {
+            if (!IsInside(position)) return;
+            _current[position.Y, position.X] = cellId;
+        }
 
-        public void SetNextCell(Vector position, int cellId) => _next[position.Y, position.X] = cellId;
-        public int GetNextCell(Vector position) => _next[position.Y, position.X];
+        public void SetNextCell(Vector position, int cellId)
+        {
+            if (!IsInside(position)) return;
+            _next[position.Y, position.X] = cellId;
+        }
+        public int GetNextCell(Vector position)
+        {
+            return !IsInside(position) ? 0 : _next[position.Y, position.X];
+        }
 
+        private bool IsInside(Vector position)
+        {
+            return position is { X: >= 0, Y: >= 0 }
+                   && position.X < _current.GetLength(1)
+                   && position.Y < _current.GetLength(0);
+        }
         public void CommitNextGeneration()
         {
             Buffer.BlockCopy(_next, 0, _current, 0, sizeof(int) * Size.X * Size.Y);
@@ -45,6 +65,7 @@ namespace GameOfLife.Model
             }
         }
 
+        public bool IsEmpty() => !_current.Cast<int>().Any(c => c != 0);
         public void Resize(Vector size)
         {
             Size = size;

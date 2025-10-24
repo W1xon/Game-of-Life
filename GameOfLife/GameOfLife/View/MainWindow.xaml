@@ -208,9 +208,13 @@
                 x:Name="GameBorder">
                 <Image
                     HorizontalAlignment="Center"
+                    MouseLeftButtonDown="Field_OnMouseLeftButtonDown"
+                    MouseLeftButtonUp="Field_OnMouseLeftButtonUp"
+                    MouseMove="Field_OnMouseMove"
                     Stretch="Uniform"
                     VerticalAlignment="Center"
                     x:Name="Field" />
+
             </Border>
         </Border>
     </Grid>

@@ -4,6 +4,7 @@ public class StopedState : BaseGameState
 {
     public StopedState(TileMap tileMap, GameSettings gameSettings) : base(tileMap, gameSettings)
     {
+        
     }
     public override bool CanTransitionTo(IGameState newState)
     {
