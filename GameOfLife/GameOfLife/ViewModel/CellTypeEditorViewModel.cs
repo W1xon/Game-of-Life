@@ -48,7 +48,6 @@ public class CellTypeEditorViewModel : ObservableObject
 
             if (changedCell.IsPriority)
             {
-                // Сбрасываем IsPriority у всех остальных клеток
                 foreach (var cell in CellTypes)
                 {
                     if (cell != changedCell && cell.IsPriority)

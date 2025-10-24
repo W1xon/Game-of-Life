@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using GameOfLife.Model;
-using GameOfLife.ViewModel;
+﻿using GameOfLife.Model;
 
 namespace GameOfLife.ViewModel;
 
@@ -11,6 +8,7 @@ public class MainViewModel : ObservableObject
     private DisplaySettings _displaySettings;
     private bool _useAdditionalColors;
     private CellType _mainCellType;
+
     public static MainViewModel Instance
     {
         get
@@ -25,19 +23,27 @@ public class MainViewModel : ObservableObject
         get => _mainCellType;
         set => Set(ref _mainCellType, value);
     }
+
     public DisplaySettings DisplaySettings
     {
         get => _displaySettings;
         set => Set(ref _displaySettings, value);
     }
+
+    public BrushesRegistry BrushesRegistry { get; }
+
     public bool UseAdditionalColors
     {
         get => _useAdditionalColors;
         set
         {
-            DisplaySettings.CurrentColorStrategyName = "Base"; 
+            DisplaySettings.CurrentColorStrategyName = "Base";
             Set(ref _useAdditionalColors, value);
         }
     }
-    private MainViewModel() { }
+
+    private MainViewModel()
+    {
+        BrushesRegistry = new BrushesRegistry();
+    }
 }

@@ -87,6 +87,15 @@
                         Text="Плотность клеток" />
                     <TextBox Margin="0,0,0,12" x:Name="DensityTextBox" />
 
+                    <TextBlock
+                        Margin="0,0,0,4"
+                        Style="{StaticResource LabelText}"
+                        Text="Кисть" />
+
+                    <ComboBox
+                        ItemsSource="{Binding BrushesRegistry.BrushNames}"
+                        Margin="0,0,0,16"
+                        SelectedIndex="{Binding BrushesRegistry.SelectedIndex, Mode=TwoWay}" />
                     <!--  Слайдер скорости  -->
                     <TextBlock
                         Margin="0,0,0,4"
@@ -157,10 +166,23 @@
 
                     <Button
                         Click="OpenNewCellWindow_Click"
-                        Content="➕  Создать новую клетку"
+                        Content="Менеджер клеток"
                         Margin="0,0,0,12"
                         Style="{StaticResource BtnBlue}" />
-
+                    <Border
+                        BorderBrush="{StaticResource BorderColor}"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Grid.Column="1"
+                        Height="24"
+                        HorizontalAlignment="Left"
+                        Margin="8,0,0,0"
+                        Width="24">
+                        <Rectangle
+                            Fill="{Binding MainCellType.Color, Converter={StaticResource ColorToBrushConverter}}"
+                            RadiusX="3"
+                            RadiusY="3" />
+                    </Border>
                     <TextBlock
                         Margin="0,0,0,4"
                         Style="{StaticResource LabelText}"

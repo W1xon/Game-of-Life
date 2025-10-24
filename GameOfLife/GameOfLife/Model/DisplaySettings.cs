@@ -31,7 +31,6 @@ namespace GameOfLife.Model
             "Gradient XY Green",
             "Gradient XY Red"
         ];
-
         public int Width
         {
             get => _width;

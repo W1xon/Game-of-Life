@@ -29,6 +29,27 @@ namespace GameOfLife.Model
             _current[position.Y, position.X] = cellId;
         }
 
+        public void SetCells(Vector position, int[,] brushes, int cellId)
+        {
+            int width = brushes.GetLength(1);
+            int height = brushes.GetLength(0);
+
+            int offsetX = width / 2;
+            int offsetY = height / 2;
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (brushes[y, x] == 1)
+                    {
+                        SetCell(new Vector(position.X + x - offsetX, position.Y + y - offsetY), cellId);
+                    }
+                }
+            }
+        }
+
+
         public void SetNextCell(Vector position, int cellId)
         {
             if (!IsInside(position)) return;

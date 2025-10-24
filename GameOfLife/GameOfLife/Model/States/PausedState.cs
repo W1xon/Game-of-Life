@@ -20,7 +20,7 @@ public class PausedState : BaseGameState
 
     public override void Update()
     {
-        _tileMap.SetCell(GameSettings.DrawPosition, 
+        _tileMap.SetCells(GameSettings.DrawPosition, MainViewModel.Instance.BrushesRegistry.SelectedBrush, 
             MainViewModel.Instance.MainCellType.ID);
     }
 
