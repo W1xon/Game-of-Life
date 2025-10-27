@@ -189,4 +189,14 @@ public partial class MainWindow : Window
         _game.PauseAfterDraw();
         GameSettings.DrawPosition = new Model.Vector(cellX, cellY);
     }
+
+    private void GameInfoButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        var infoWindow = new GameInfo
+        {
+            Owner = this
+        };
+        infoWindow.ShowDialog();
+    }
+
 }

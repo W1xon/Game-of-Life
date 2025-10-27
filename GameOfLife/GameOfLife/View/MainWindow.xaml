@@ -25,12 +25,20 @@
             Grid.Column="0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="24,20">
-
-                    <!--  Заголовок  -->
-                    <TextBlock
-                        Margin="0,0,0,24"
-                        Style="{StaticResource HeaderText}"
-                        Text="Game of Life" />
+                    <StackPanel Orientation="Horizontal">
+                        <!--  Заголовок  -->
+                        <TextBlock
+                            Margin="0,0,0,24"
+                            Style="{StaticResource HeaderText}"
+                            Text="Game of Life" />
+                        <Button
+                            Click="GameInfoButton_OnClick"
+                            Content="?"
+                            Height="40"
+                            Margin="90,0"
+                            Style="{StaticResource BtnBlue}"
+                            Width="45" />
+                    </StackPanel>
 
                     <!--  Управление  -->
                     <TextBlock
