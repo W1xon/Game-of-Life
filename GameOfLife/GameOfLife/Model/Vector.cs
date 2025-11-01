@@ -2,7 +2,6 @@
 {
     public readonly struct Vector(int x, int y)
     {
-        public static Vector Minus = new Vector(-1, -1);
         public int X { get; } = x;
         public int Y { get; } = y;
 

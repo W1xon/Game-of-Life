@@ -4,8 +4,7 @@ namespace GameOfLife.Model;
 
 public class GameSettings
 {
-    public static Vector DrawPosition { get; set; }
-
+    public static Vector? DrawPosition { get; set; }
     public int GetNextCellState(int currentCellId, KeyValuePair<int, int> neighbourCountAndDominantType)
     {
         int neighbourCount = neighbourCountAndDominantType.Key;

@@ -18,4 +18,10 @@
       </Page>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="FFmpeg.Net" Version="1.1.0" />
+      <PackageReference Include="FFMpegCore" Version="5.2.0" />
+      <PackageReference Include="Xabe.FFmpeg.Downloader" Version="6.0.2" />
+    </ItemGroup>
+
 </Project>

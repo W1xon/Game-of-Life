@@ -10,7 +10,7 @@ public class PausedState : BaseGameState
 
     public override bool CanTransitionTo(IGameState newState)
     {
-        return !(newState == this);
+        return newState != this;
     }
 
     public override void Enter()
@@ -20,8 +20,10 @@ public class PausedState : BaseGameState
 
     public override void Update()
     {
-        _tileMap.SetCells(GameSettings.DrawPosition, MainViewModel.Instance.BrushesRegistry.SelectedBrush, 
-            MainViewModel.Instance.MainCellType.ID);
+        if(GameSettings.DrawPosition.HasValue)
+            _tileMap.SetCells(GameSettings.DrawPosition.Value,
+                MainViewModel.Instance.BrushesRegistry.SelectedBrush,
+                MainViewModel.Instance.MainCellType.ID);
     }
 
     public override void Exit()

@@ -1,0 +1,52 @@
+﻿<Window
+    AllowsTransparency="True"
+    Background="{StaticResource BgDark}"
+    Height="200"
+    ResizeMode="NoResize"
+    Title="Первый запуск"
+    Width="450"
+    WindowStartupLocation="CenterOwner"
+    WindowStyle="None"
+    x:Class="GameOfLife.View.FFmpegDownloadWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border
+        Background="{StaticResource BgPanel}"
+        BorderBrush="{StaticResource BorderColor}"
+        BorderThickness="1"
+        CornerRadius="8"
+        Effect="{DynamicResource DropShadow}">
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="15" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                Style="{StaticResource HeaderText}"
+                Text="Загрузка FFmpeg" />
+
+            <TextBlock
+                FontSize="13"
+                Grid.Row="2"
+                Style="{StaticResource LabelText}"
+                TextAlignment="Center"
+                TextWrapping="Wrap">
+                Загрузка FFmpeg для записи видео...<LineBreak />
+                Это произойдет только один раз.</TextBlock>
+
+            <ProgressBar
+                Background="{StaticResource BgCard}"
+                BorderBrush="{StaticResource BorderColor}"
+                BorderThickness="1"
+                Grid.Row="4"
+                Height="30"
+                IsIndeterminate="True" />
+        </Grid>
+    </Border>
+</Window>

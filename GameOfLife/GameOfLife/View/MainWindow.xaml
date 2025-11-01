@@ -49,7 +49,7 @@
                     <UniformGrid
                         Columns="2"
                         Margin="0,0,0,20"
-                        Rows="2">
+                        Rows="3">
                         <Button
                             Click="BtnStart_Click"
                             Content="▶  Старт"
@@ -63,13 +63,20 @@
                         <Button
                             Click="BtnResume_Click"
                             Content="⏯  Продолжить"
-                            Margin="0,4,4,0"
+                            Margin="0,4,4,4"
                             Style="{StaticResource BtnBlue}" />
                         <Button
                             Click="BtnReset_Click"
                             Content="🔄  Сброс"
-                            Margin="4,4,0,0"
+                            Margin="4,4,0,4"
                             Style="{StaticResource BtnRed}" />
+                        <Button
+                            Click="BtnRecord_Click"
+                            Content="⏺  Запись"
+                            Margin="0,4,4,0"
+                            Style="{StaticResource BtnRed}"
+                            ToolTip="Записать симуляцию в видео файл"
+                            x:Name="BtnRecord" />
                     </UniformGrid>
 
                     <Separator Margin="0,0,0,20" />
