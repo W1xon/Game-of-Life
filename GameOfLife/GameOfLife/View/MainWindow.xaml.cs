@@ -181,7 +181,7 @@ public partial class MainWindow : Window
     {
         var editorWindow = new NewCellTypeWindow();
         editorWindow.DataContext = CellTypeEditorViewModel.Instance;
-        editorWindow.Show();
+        editorWindow.ShowDialog();
     }
     
     private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -255,5 +255,33 @@ public partial class MainWindow : Window
             Owner = this
         };
         infoWindow.ShowDialog();
+    }
+    private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState.Minimized;
+    }
+    
+    private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (WindowState == WindowState.Maximized)
+        {
+            WindowState = WindowState.Normal;
+        }
+        else
+        {
+            WindowState = WindowState.Maximized;
+        }
+    }
+    
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
+    private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.ChangedButton == MouseButton.Left)
+        {
+            this.DragMove();
+        }
     }
 }
