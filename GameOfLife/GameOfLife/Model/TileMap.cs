@@ -1,4 +1,6 @@
-﻿using GameOfLife.ViewModel;
+﻿using System.Windows;
+using System.Windows.Media.Imaging;
+using GameOfLife.ViewModel;
 
 namespace GameOfLife.Model
 {
@@ -85,6 +87,67 @@ namespace GameOfLife.Model
                 }
             }
         }
+
+       public void InitializeMap(WriteableBitmap bitmap)
+       {
+           int cellSize = MainViewModel.Instance.DisplaySettings.CellSize;
+       
+           int width = bitmap.PixelWidth;
+           int height = bitmap.PixelHeight;
+       
+           // Блокировка для безопасного доступа к пикселям
+           bitmap.Lock();
+       
+           try
+           {
+               unsafe
+               {
+                   int bytesPerPixel = (bitmap.Format.BitsPerPixel + 7) / 8;
+                   byte* pStart = (byte*)bitmap.BackBuffer;
+       
+                   for (int y = 0; y < height; y += cellSize)
+                   {
+                       for (int x = 0; x < width; x += cellSize)
+                       {
+                           int totalBrightness = 0;
+                           int count = 0;
+       
+                           // Проходим по пикселям блока
+                           for (int py = y; py < y + cellSize && py < height; py++)
+                           {
+                               for (int px = x; px < x + cellSize && px < width; px++)
+                               {
+                                   byte* pPixel = pStart + py * bitmap.BackBufferStride + px * bytesPerPixel;
+                                   byte b = pPixel[0];
+                                   byte g = pPixel[1];
+                                   byte r = pPixel[2];
+       
+                                   // Яркость как среднее RGB
+                                   int brightness = (r + g + b) / 3;
+                                   totalBrightness += brightness;
+                                   count++;
+                               }
+                           }
+       
+                           int averageBrightness = count > 0 ? totalBrightness / count : 255;
+       
+                           // Если блок светлый, считаем клетку живой
+                           if (averageBrightness > 60)
+                           {
+                               int cellX = x / cellSize;
+                               int cellY = y / cellSize;
+                               SetCell(new Vector(cellX, cellY), MainViewModel.Instance.MainCellType.ID);
+                           }
+                       }
+                   }
+               }
+           }
+           finally
+           {
+               bitmap.Unlock();
+           }
+       }
+
 
         public bool IsEmpty() => !_current.Cast<int>().Any(c => c != 0);
         public void Resize(Vector size)

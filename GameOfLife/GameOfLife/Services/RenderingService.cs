@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using GameOfLife.Model;
@@ -11,33 +12,25 @@ namespace GameOfLife.Services
     {
         private readonly WriteableBitmap _bitmap;
         private readonly DisplaySettings _displaySettings;
-        private readonly int _stride;
+        private readonly uint _packedDeadColor; 
 
         public RenderingService(WriteableBitmap bitmap, DisplaySettings displaySettings)
         {
             _bitmap = bitmap;
             _displaySettings = displaySettings;
-            _stride = bitmap.PixelWidth * (bitmap.Format.BitsPerPixel / 8);
+
+            var deadColor = CellTypeRegistry.Get(0).Color;
+            _packedDeadColor = PackColor(deadColor);
         }
+
         public unsafe void Clear()
         {
-            var color = CellTypeRegistry.Get(0).Color;
-
             _bitmap.Lock();
-            byte* buffer = (byte*)_bitmap.BackBuffer.ToPointer();
+            uint* buffer = (uint*)_bitmap.BackBuffer.ToPointer();
+            int totalPixels = _bitmap.PixelWidth * _bitmap.PixelHeight;
 
-            for (int y = 0; y < _bitmap.PixelHeight; y++)
-            {
-                byte* pixel = buffer + y * _stride;
-                for (int x = 0; x < _bitmap.PixelWidth; x++)
-                {
-                    pixel[0] = color.B;
-                    pixel[1] = color.G;
-                    pixel[2] = color.R;
-                    pixel[3] = 255;
-                    pixel += 4;
-                }
-            }
+            var bufferSpan = new Span<uint>(buffer, totalPixels);
+            bufferSpan.Fill(_packedDeadColor);
 
             _bitmap.AddDirtyRect(new Int32Rect(0, 0, _bitmap.PixelWidth, _bitmap.PixelHeight));
             _bitmap.Unlock();
@@ -45,117 +38,63 @@ namespace GameOfLife.Services
 
         public void DrawField(TileMap tileMap)
         {
-            if(_displaySettings.UseCellRendering)
+            if (_displaySettings.UseCellRendering)
                 DrawFieldByCell(tileMap);
-            else DrawFieldByPixel(tileMap);
-            
+            else
+                DrawFieldByPixel(tileMap); 
         }
+
         private unsafe void DrawFieldByPixel(TileMap tileMap)
-        {
-        int cellSize = _displaySettings.CellSize;
-        int width = tileMap.Size.X;
-        int height = tileMap.Size.Y;
-    
-        _bitmap.Lock();
-        byte* buffer = (byte*)_bitmap.BackBuffer.ToPointer();
-    
-        for (int yCell = 0; yCell < height; yCell++)
-        {
-            for (int xCell = 0; xCell < width; xCell++)
-            {
-                int cellId = tileMap.GetCell(new Vector(xCell, yCell));
-                var baseColor = CellTypeRegistry.Get(cellId).Color;
-    
-                int startX = xCell * cellSize;
-                int startY = yCell * cellSize;
-    
-                for (int y = 0; y < cellSize; y++)
-                {
-                    int row = (startY + y) * _stride;
-                    byte* pixel = buffer + row + startX * 4;
-    
-                    for (int x = 0; x < cellSize; x++)
-                    {
-                        int absX = startX + x;
-                        int absY = startY + y;
-    
-                        Color finalColor;
-    
-                        if (cellId == 0)
-                        {
-                            finalColor = CellTypeRegistry.Get(0).Color;
-                        }
-                        else if (_displaySettings.ColorStrategy is StandartStrategy standartStrategy)
-                        {
-                            finalColor = standartStrategy.CalculateColor(new Vector(xCell, yCell), tileMap);
-                        }
-
-                        else if (_displaySettings.ColorStrategy != null)
-                        {
-                            finalColor = _displaySettings.ColorStrategy.CalculateColor(
-                                new Vector(absX, absY),
-                                new Vector(_bitmap.PixelWidth, _bitmap.PixelHeight));
-                        }
-                        else
-                        {
-                            finalColor = baseColor;
-                        }
-    
-                        pixel[0] = finalColor.B;
-                        pixel[1] = finalColor.G;
-                        pixel[2] = finalColor.R;
-                        pixel[3] = 255;
-                        pixel += 4;
-                    }
-                }
-            }
-        }
-
-        _bitmap.AddDirtyRect(new Int32Rect(0, 0, _bitmap.PixelWidth, _bitmap.PixelHeight));
-        _bitmap.Unlock();
-        }
-        private unsafe void DrawFieldByCell(TileMap tileMap)
         {
             int cellSize = _displaySettings.CellSize;
             int width = tileMap.Size.X;
             int height = tileMap.Size.Y;
 
             _bitmap.Lock();
-            byte* buffer = (byte*)_bitmap.BackBuffer.ToPointer();
+            uint* buffer = (uint*)_bitmap.BackBuffer.ToPointer();
+            int bitmapWidth = _bitmap.PixelWidth;
 
             for (int yCell = 0; yCell < height; yCell++)
             {
                 for (int xCell = 0; xCell < width; xCell++)
                 {
                     int cellId = tileMap.GetCell(new Vector(xCell, yCell));
-                    Color color;
-                    if (cellId == 0)
-                    {
-                        color = CellTypeRegistry.Get(0).Color;
-                    }
-                    else if (_displaySettings.ColorStrategy is StandartStrategy standartStrategy)
-                    {
-                        color = standartStrategy.CalculateColor(new Vector(xCell, yCell), tileMap);
-                    }
+                    var baseColor = CellTypeRegistry.Get(cellId).Color;
 
-                    else
-                        color = _displaySettings.ColorStrategy.CalculateColor(new Vector(xCell,yCell), tileMap.Size);
                     int startX = xCell * cellSize;
                     int startY = yCell * cellSize;
 
-                    // рисуем блок клеток одним цветом
                     for (int y = 0; y < cellSize; y++)
                     {
-                        int row = (startY + y) * _stride;
-                        byte* pixel = buffer + row + startX * 4;
+                        int rowOffset = (startY + y) * bitmapWidth + startX;
 
                         for (int x = 0; x < cellSize; x++)
                         {
-                            pixel[0] = color.B;
-                            pixel[1] = color.G;
-                            pixel[2] = color.R;
-                            pixel[3] = 255;
-                            pixel += 4;
+                            int absX = startX + x;
+                            int absY = startY + y;
+
+                            Color finalColor;
+
+                            if (cellId == 0)
+                            {
+                                finalColor = CellTypeRegistry.Get(0).Color;
+                            }
+                            else if (_displaySettings.ColorStrategy is StandartStrategy standartStrategy)
+                            {
+                                finalColor = standartStrategy.CalculateColor(new Vector(xCell, yCell), tileMap);
+                            }
+                            else if (_displaySettings.ColorStrategy != null)
+                            {
+                                finalColor = _displaySettings.ColorStrategy.CalculateColor(
+                                    new Vector(absX, absY),
+                                    new Vector(_bitmap.PixelWidth, _bitmap.PixelHeight));
+                            }
+                            else
+                            {
+                                finalColor = baseColor;
+                            }
+
+                            buffer[rowOffset + x] = PackColor(finalColor);
                         }
                     }
                 }
@@ -164,6 +103,71 @@ namespace GameOfLife.Services
             _bitmap.AddDirtyRect(new Int32Rect(0, 0, _bitmap.PixelWidth, _bitmap.PixelHeight));
             _bitmap.Unlock();
         }
+
+
+        private unsafe void DrawFieldByCell(TileMap tileMap)
+        {
+            int cellSize = _displaySettings.CellSize;
+            int width = tileMap.Size.X;
+            int height = tileMap.Size.Y;
+            
+            bool useStandartStrategy = _displaySettings.ColorStrategy is StandartStrategy;
+            var standartStrategy = useStandartStrategy ? (StandartStrategy)_displaySettings.ColorStrategy : null;
+            var otherStrategy = !useStandartStrategy ? _displaySettings.ColorStrategy : null;
+
+            _bitmap.Lock();
+            uint* buffer = (uint*)_bitmap.BackBuffer.ToPointer();
+            int bitmapWidth = _bitmap.PixelWidth;
+
+            for (int yCell = 0; yCell < height; yCell++)
+            {
+                for (int xCell = 0; xCell < width; xCell++)
+                {
+                    int cellId = tileMap.GetCell(new Vector(xCell, yCell));
+                    uint packedColor;
+
+                    if (cellId == 0)
+                    {
+                        packedColor = _packedDeadColor; 
+                    }
+                    else
+                    {
+                        Color color;
+                        if (useStandartStrategy)
+                        {
+                            color = standartStrategy.CalculateColor(new Vector(xCell, yCell), tileMap);
+                        }
+                        else if (otherStrategy != null)
+                        {
+                            color = otherStrategy.CalculateColor(new Vector(xCell, yCell), tileMap.Size);
+                        }
+                        else
+                        {
+                            color = CellTypeRegistry.Get(cellId).Color; 
+                        }
+                        packedColor = PackColor(color);
+                    }
+
+                    int startX = xCell * cellSize;
+                    int startY = yCell * cellSize;
+
+                    for (int y = 0; y < cellSize; y++)
+                    {
+                        uint* rowStart = buffer + (startY + y) * bitmapWidth + startX;
+                        var rowSpan = new Span<uint>(rowStart, cellSize);
+                        rowSpan.Fill(packedColor);
+                    }
+                }
+            } 
+
+            _bitmap.AddDirtyRect(new Int32Rect(0, 0, _bitmap.PixelWidth, _bitmap.PixelHeight));
+            _bitmap.Unlock();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static uint PackColor(Color color)
+        {
+             return (uint)(color.B | (color.G << 8) | (color.R << 16) | (255 << 24));
+        }
     }
-   
 }

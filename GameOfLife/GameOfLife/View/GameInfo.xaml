@@ -1,11 +1,12 @@
 ﻿<Window
-    Background="{StaticResource BgDark}"
-    Foreground="White"
+    AllowsTransparency="True"
+    Background="Transparent"
     ResizeMode="NoResize"
     SizeToContent="Height"
     Title="Game of Life — О программе"
     Width="760"
     WindowStartupLocation="CenterOwner"
+    WindowStyle="None"
     mc:Ignorable="d"
     x:Class="GameOfLife.View.GameInfo"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -14,121 +15,213 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Border
-        Background="#222"
-        BorderBrush="#444"
+        Background="{StaticResource BgDark}"
+        BorderBrush="{StaticResource BorderColor}"
         BorderThickness="1"
-        CornerRadius="12"
-        Margin="16"
-        Padding="32">
+        CornerRadius="8">
 
-        <DockPanel LastChildFill="True">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
+            <!--  Верхняя панель  -->
+            <Border
+                Background="{StaticResource BgPanel}"
+                BorderBrush="{StaticResource BorderColor}"
+                BorderThickness="0,0,0,1"
+                CornerRadius="8,8,0,0"
+                Grid.Row="0"
+                MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-            <StackPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
-                <Separator BorderBrush="#333" Margin="0,0,0,12" />
-                <Button
-                    Click="Close_OnClick"
-                    Content="Закрыть"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource BtnBlue}"
-                    Width="120" />
-            </StackPanel>
+                    <TextBlock
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        Foreground="{StaticResource TextPrimary}"
+                        Margin="16,0,0,0"
+                        Text="📘 О программе"
+                        VerticalAlignment="Center" />
 
+                    <Button
+                        Background="{StaticResource BgPanel}"
+                        BorderBrush="{StaticResource BorderColor}"
+                        Click="Close_OnClick"
+                        Cursor="Hand"
+                        Grid.Column="1"
+                        Height="40"
+                        Width="46">
+                        <Path
+                            Data="M 0,0 L 10,10 M 10,0 L 0,10"
+                            Stretch="None"
+                            Stroke="{StaticResource TextPrimary}"
+                            StrokeThickness="1.4" />
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource IconButtonStyle}" TargetType="Button">
+                                <Setter Property="Background" Value="{StaticResource BgPanel}" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="0"
+                                                CornerRadius="0,8,0,0">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource AccentRedHover}" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource AccentRed}" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </Border>
 
-            <ScrollViewer MaxHeight="700" VerticalScrollBarVisibility="Auto">
+            <!--  Основной контент  -->
+            <ScrollViewer
+                Grid.Row="1"
+                Padding="32"
+                VerticalScrollBarVisibility="Auto">
                 <StackPanel>
 
-
+                    <!--  Заголовок  -->
                     <TextBlock
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource TextPrimary}"
                         Margin="0,0,0,20"
-                        Style="{StaticResource HeaderText}"
                         Text="Игра «Жизнь» (Game of Life)" />
 
-
-                    <Border Style="{StaticResource ModernCard}">
+                    <!--  Секция: описание  -->
+                    <Border
+                        Background="{StaticResource BgCard}"
+                        BorderBrush="{StaticResource BorderColor}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Margin="0,0,0,16"
+                        Padding="16">
                         <StackPanel>
                             <TextBlock
+                                FontSize="16"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource AccentBlue}"
                                 Margin="0,0,0,8"
-                                Style="{StaticResource SubHeaderText}"
                                 Text="Сущность игры" />
-                            <TextBlock Margin="0,0,0,12" TextWrapping="Wrap">
-                                <Run Foreground="#b0b0b0">«Игра Жизнь» — клеточный автомат, предложенный</Run>
-                                <Run Foreground="#55aaff">Джоном Конвеем</Run>
-                                <Run Foreground="#b0b0b0">. Каждая клетка может быть живой или мёртвой, а поле изменяется по простым правилам, моделируя процессы рождения, выживания и гибели.</Run>
-                            </TextBlock>
-
-                            <TextBlock
-                                Margin="0,0,0,8"
-                                Style="{StaticResource LabelText}"
-                                Text="Основные правила:" />
-                            <StackPanel Margin="12,0,0,0">
-                                <TextBlock><Run Foreground="#55ff99">•</Run> <Run Foreground="#b0b0b0">Живая клетка с менее чем двумя соседями умирает от одиночества.</Run></TextBlock>
-                                <TextBlock><Run Foreground="#55ff99">•</Run> <Run Foreground="#b0b0b0">Живая клетка с двумя или тремя соседями продолжает жить.</Run></TextBlock>
-                                <TextBlock><Run Foreground="#55ff99">•</Run> <Run Foreground="#b0b0b0">Живая клетка с более чем тремя соседями умирает от перенаселения.</Run></TextBlock>
-                                <TextBlock><Run Foreground="#55ff99">•</Run> <Run Foreground="#b0b0b0">Мёртвая клетка с ровно тремя соседями оживает.</Run></TextBlock>
-                            </StackPanel>
+                            <TextBlock Foreground="{StaticResource TextSecondary}" TextWrapping="Wrap">
+                                «Игра Жизнь» — клеточный автомат, предложенный<Run Foreground="{StaticResource AccentBlue}">Джоном Конвеем</Run>
+                                .
+                                Каждая клетка может быть живой или мёртвой, а поле изменяется по простым правилам, моделируя процессы рождения, выживания и гибели.</TextBlock>
                         </StackPanel>
                     </Border>
 
-
-                    <Border Style="{StaticResource ModernCard}">
+                    <!--  Секция: функционал  -->
+                    <Border
+                        Background="{StaticResource BgCard}"
+                        BorderBrush="{StaticResource BorderColor}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Margin="0,0,0,16"
+                        Padding="16">
                         <StackPanel>
                             <TextBlock
+                                FontSize="16"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource AccentBlue}"
                                 Margin="0,0,0,8"
-                                Style="{StaticResource SubHeaderText}"
                                 Text="Функционал программы" />
-                            <TextBlock Margin="0,0,0,12" TextWrapping="Wrap">
-                                <Run Foreground="#b0b0b0">Реализована классическая модель</Run>
-                                <Run Foreground="#55aaff">Game of Life</Run>
-                                <Run Foreground="#b0b0b0">с гибкими настройками и визуальными эффектами.</Run>
-                            </TextBlock>
-
-                            <TextBlock
-                                Margin="0,0,0,8"
-                                Style="{StaticResource LabelText}"
-                                Text="Возможности:" />
                             <StackPanel Margin="12,0,0,0">
-                                <TextBlock><Run Foreground="#55ff99">•</Run> <Run Foreground="#b0b0b0">Редактирование начального состояния поля вручную.</Run></TextBlock>
-                                <TextBlock><Run Foreground="#55ff99">•</Run> <Run Foreground="#b0b0b0">Изменение скорости симуляции и режима воспроизведения.</Run></TextBlock>
-                                <TextBlock><Run Foreground="#55ff99">•</Run> <Run Foreground="#b0b0b0">Цветовые схемы и дополнительные визуальные эффекты.</Run></TextBlock>
-                                <TextBlock><Run Foreground="#55ff99">•</Run> <Run Foreground="#b0b0b0">Сохранение и загрузка шаблонов.</Run></TextBlock>
-                                <TextBlock><Run Foreground="#55ff99">•</Run> <Run Foreground="#b0b0b0">Менеджер клеток — создание собственных типов и правил.</Run></TextBlock>
-                                <TextBlock><Run Foreground="#55ff99">•</Run> <Run Foreground="#b0b0b0">Импорт и экспорт паттернов.</Run></TextBlock>
+                                <TextBlock Foreground="{StaticResource TextSecondary}">• Редактирование начального состояния поля вручную</TextBlock>
+                                <TextBlock Foreground="{StaticResource TextSecondary}">• Изменение скорости и режима симуляции</TextBlock>
+                                <TextBlock Foreground="{StaticResource TextSecondary}">• Цветовые схемы и визуальные эффекты</TextBlock>
+                                <TextBlock Foreground="{StaticResource TextSecondary}">• Сохранение и загрузка шаблонов</TextBlock>
+                                <TextBlock Foreground="{StaticResource TextSecondary}">• Менеджер клеток и собственные правила</TextBlock>
+                                <TextBlock Foreground="{StaticResource TextSecondary}">• Импорт и экспорт паттернов</TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </Border>
 
-
-                    <Border Style="{StaticResource ModernCard}">
+                    <!--  Контакты  -->
+                    <Border
+                        Background="{StaticResource BgCard}"
+                        BorderBrush="{StaticResource BorderColor}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Margin="0,0,0,16"
+                        Padding="16">
                         <StackPanel>
                             <TextBlock
+                                FontSize="16"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource AccentBlue}"
                                 Margin="0,0,0,8"
-                                Style="{StaticResource SubHeaderText}"
-                                Text="Управление симуляцией" />
-                            <StackPanel Margin="12,0,0,0">
-                                <TextBlock><Run Foreground="#55ff99">▶</Run> <Run Foreground="#55aaff">Старт</Run>
-                                    —<Run Foreground="#b0b0b0">начало симуляции</Run></TextBlock>
-                                <TextBlock><Run Foreground="#55ff99">⏸</Run> <Run Foreground="#55aaff">Пауза</Run>
-                                    —<Run Foreground="#b0b0b0">остановка процесса</Run></TextBlock>
-                                <TextBlock><Run Foreground="#55ff99">⏯</Run> <Run Foreground="#55aaff">Продолжить</Run>
-                                    —<Run Foreground="#b0b0b0">возобновление симуляции</Run></TextBlock>
-                                <TextBlock><Run Foreground="#55ff99">🔄</Run> <Run Foreground="#55aaff">Сброс</Run>
-                                    —<Run Foreground="#b0b0b0">очистка поля и новый запуск</Run></TextBlock>
+                                Text="Поддержать проект и связаться" />
+
+                            <StackPanel
+                                HorizontalAlignment="Center"
+                                Margin="0,10,0,20"
+                                Orientation="Horizontal">
+                                <Button
+                                    Click="OpenLink"
+                                    Style="{StaticResource IconButtonStyle}"
+                                    Tag="https://t.me/CoderW0rker"
+                                    ToolTip="Telegram">
+                                    <TextBlock FontSize="20" Text="📱" />
+                                </Button>
+                                <Button
+                                    Click="OpenLink"
+                                    Style="{StaticResource IconButtonStyle}"
+                                    Tag="https://www.youtube.com/@w_ixon"
+                                    ToolTip="YouTube">
+                                    <TextBlock FontSize="20" Text="📺" />
+                                </Button>
+                                <Button
+                                    Click="OpenLink"
+                                    Style="{StaticResource IconButtonStyle}"
+                                    Tag="https://github.com/W1xon"
+                                    ToolTip="GitHub">
+                                    <TextBlock FontSize="20" Text="💻" />
+                                </Button>
                             </StackPanel>
+
+                            <Button
+                                Click="OpenLink"
+                                Content="Поддержать проект 💖"
+                                Cursor="Hand"
+                                FontSize="14"
+                                Foreground="{StaticResource TextPrimary}"
+                                HorizontalAlignment="Center"
+                                Padding="12,6"
+                                Style="{StaticResource BtnGreen}"
+                                Tag="https://dalink.to/w1xon"
+                                Width="200" />
                         </StackPanel>
                     </Border>
 
-
-                    <TextBlock
-                        FontStyle="Italic"
-                        HorizontalAlignment="Right"
-                        Margin="0,8,0,0"
-                        Opacity="0.7"
-                        Text="Разработано: Wixon" />
-
+                    <Button
+                        Background="{StaticResource AccentBlue}"
+                        Click="Close_OnClick"
+                        Content="Закрыть"
+                        Foreground="White"
+                        HorizontalAlignment="Center"
+                        Margin="0,24,0,0"
+                        Style="{StaticResource IconButtonStyle}"
+                        Width="120" />
                 </StackPanel>
             </ScrollViewer>
-
-        </DockPanel>
+        </Grid>
     </Border>
 </Window>

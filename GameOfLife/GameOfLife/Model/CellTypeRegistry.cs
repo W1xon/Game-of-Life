@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace GameOfLife.Model;
 
@@ -8,78 +9,124 @@ public static class CellTypeRegistry
 
     static CellTypeRegistry()
     {
-        // 0 — Пустая
+        
         Register(new CellType(
             id: 0,
             birthRules: "",
             survivalRules: "",
-            color: Color.FromArgb(30, 32, 36),
+            color: Color.FromArgb(30, 32, 36), 
             name: "Пустая"
         ));
 
-        // 1 — Классика Conway (B3/S23)
+        
         Register(new CellType(
             id: 1,
             birthRules: "3",
             survivalRules: "23",
-            color: Color.FromArgb(0, 180, 110),
+            color: Color.FromArgb(170, 220, 255), 
             name: "Обычная",
             isPriority: true
         ));
 
-        // 2 — "HighLife" (B36/S23) — как Conway, но умеет "самокопироваться"
+        
         Register(new CellType(
             id: 2,
             birthRules: "36",
             survivalRules: "23",
-            color: Color.FromArgb(80, 140, 255),
+            color: Color.FromArgb(255, 180, 220), 
             name: "HighLife"
         ));
 
-
-        // 3 — "Life Without Death" (B3/S012345678) — только растёт, никогда не умирает
+        
         Register(new CellType(
             id: 3,
             birthRules: "3",
             survivalRules: "012345678",
-            color: Color.FromArgb(255, 160, 50),
+            color: Color.FromArgb(210, 255, 190), 
             name: "Бессмертная"
         ));
 
-        // 4 — "Day & Night" (B3678/S34678) — симметричная, устойчивая система
+        
         Register(new CellType(
             id: 4,
             birthRules: "3678",
             survivalRules: "34678",
-            color: Color.FromArgb(180, 120, 255),
+            color: Color.FromArgb(200, 190, 255), 
             name: "Day & Night"
         ));
 
-        // 5 — "Maze" (B3/S12345) — образует лабиринты и туннели
+        
         Register(new CellType(
             id: 5,
             birthRules: "3",
             survivalRules: "12345",
-            color: Color.FromArgb(120, 200, 255),
+            color: Color.FromArgb(255, 250, 180), 
             name: "Maze"
         ));
 
-        // 6 — "Coagulations" (B378/S235678) — густые массы
+        
         Register(new CellType(
             id: 6,
             birthRules: "378",
             survivalRules: "235678",
-            color: Color.FromArgb(255, 200, 90),
+            color: Color.FromArgb(255, 200, 180), 
             name: "Coagulations"
         ));
 
-        // 7 — "Diamoeba" (B35678/S5678) — живые амёбные формы
+        
         Register(new CellType(
             id: 7,
             birthRules: "35678",
             survivalRules: "5678",
-            color: Color.FromArgb(100, 255, 150),
+            color: Color.FromArgb(160, 230, 210), 
             name: "Diamoeba"
+        ));
+
+        
+
+        
+        Register(new CellType(
+            id: 8,
+            birthRules: "3",
+            survivalRules: "45678",
+            color: Color.FromArgb(255, 110, 180), 
+            name: "Dream Coral"
+        ));
+
+        
+        Register(new CellType(
+            id: 9,
+            birthRules: "3678",
+            survivalRules: "235678",
+            color: Color.FromArgb(180, 130, 255), 
+            name: "Dream Stains"
+        ));
+
+        
+        Register(new CellType(
+            id: 10,
+            birthRules: "35678",
+            survivalRules: "5678",
+            color: Color.FromArgb(190, 255, 150), 
+            name: "Dream Diamoeba"
+        ));
+
+        
+        Register(new CellType(
+            id: 11,
+            birthRules: "3",
+            survivalRules: "12345",
+            color: Color.FromArgb(130, 230, 255), 
+            name: "Dream Maze"
+        ));
+
+        
+        Register(new CellType(
+            id: 12,
+            birthRules: "378",
+            survivalRules: "235678",
+            color: Color.FromArgb(255, 130, 130), 
+            name: "Dream Coagulation"
         ));
     }
 

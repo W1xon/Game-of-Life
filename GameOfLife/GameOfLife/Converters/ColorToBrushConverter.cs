@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Drawing;
+using Brushes = System.Drawing.Brushes;
 using Color = System.Drawing.Color;
 
 namespace GameOfLife.Converters

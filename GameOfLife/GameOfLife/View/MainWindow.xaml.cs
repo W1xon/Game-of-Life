@@ -12,30 +12,43 @@ namespace GameOfLife.View;
 
 public partial class MainWindow : Window
 {
+    
     private Game _game;
-    private RenderingService _renderingService;
-    private TileMap _tileMap;
-    private DispatcherTimer _updateTimer;
-    private GameSettings _gameSettings;
     private bool _isDrawing = false;
-    
-    private VideoRecordingManager _videoManager;
-    
+    private readonly VideoRecordingManager _videoManager;
+    private DispatcherTimer _statsTimer;
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = MainViewModel.Instance;
         
+        InitializeFpsUpdater();
+        DataContext = MainViewModel.Instance;
+
         _videoManager = new VideoRecordingManager();
     
-        // Отключаем кнопку записи до загрузки FFmpeg
         BtnRecord.IsEnabled = false;
         BtnRecord.Content = "⏺  Загрузка FFmpeg...";
     
         GameBorder.Loaded += OnGameAreaLoaded;
         Loaded += OnWindowLoaded;
     }
-    
+    private void InitializeFpsUpdater()
+    {
+        _statsTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(100) 
+        };
+        _statsTimer.Tick += (s, e) => 
+        {
+            if (_game != null)
+            {
+                GpsText.Text = $"{_game.GPS:F1}";
+                CycleTimeText.Text = $"{_game.LastCycleTimeMs:F2} мс";
+                ExecutionTimeText.Text = $"{_game.LastUpdateTimeMs:F2} мс";
+            }
+        };
+        _statsTimer.Start();
+    }
     private async void OnWindowLoaded(object sender, RoutedEventArgs e)
     {
         bool success = await _videoManager.InitializeFFmpegAsync(this);
@@ -70,77 +83,49 @@ public partial class MainWindow : Window
             errorDialog.ShowDialog();
             return;
         }
-    
-        InitializeGame(width, height);
-    }
-    
-    private void InitializeGame(int width, int height)
-    {
-        MainViewModel.Instance.DisplaySettings = new DisplaySettings(width, height, cellSize: 5);
-        MainViewModel.Instance.DisplaySettings.UseCellRendering = true;
-        MainViewModel.Instance.DisplaySettings.MapSizeChanged += size =>
-        {
-            _renderingService.Clear();
-            _tileMap.Resize(size);
-        };
-        MainViewModel.Instance.MainCellType = CellTypeRegistry.Get(1);
+
+        InitializeGameField(width, height);
         
+    }
+
+    
+    private void InitializeGameField(int width, int height)
+    {
         var bitmap = new WriteableBitmap(
-            MainViewModel.Instance.DisplaySettings.Width, 
-            MainViewModel.Instance.DisplaySettings.Height, 
-            96, 96, 
-            PixelFormats.Bgra32, 
+            width,
+            height,
+            96, 96,
+            PixelFormats.Bgra32,
             null
         );
-        _gameSettings = new GameSettings();
-    
-        Field.Source = bitmap;
-    
-        _renderingService = new RenderingService(bitmap, MainViewModel.Instance.DisplaySettings);
-        _tileMap = new TileMap(MainViewModel.Instance.DisplaySettings.MapSize);
-        _game = new Game(_tileMap, _gameSettings);
-        
-        InitializeGameLoop();
+        InitGame();
+       _game.InitializeGameField(bitmap, Field, _videoManager);
     }
-    
-    private void InitializeGameLoop()
+
+    private void InitGame()
     {
-        _updateTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromMilliseconds(10) 
-        };
-        _updateTimer.Tick += (_, _) =>
-        {
-            _game.Update();
-            _renderingService.DrawField(_tileMap);
-            
-            // Захватываем кадр во время записи
-            if (_videoManager.IsRecording && Field.Source is WriteableBitmap bitmap)
-            {
-                _videoManager.CaptureFrame(bitmap);
-            }
-        };
-        _updateTimer.Start();
+        _game = new Game();
     }
+    
     
     private void BtnStart_Click(object sender, RoutedEventArgs e)
     {
-        _game.Start();
+        _game.GameController.Start();
     }
     
     private void BtnPause_Click(object sender, RoutedEventArgs e)
     {
-        _game.Pause();
+        _game.GameController.Pause();
     }
     
     private void BtnResume_Click(object sender, RoutedEventArgs e)
     {
-        _game.Resume();
+        _game.GameController.Resume();
     }
     
     private void BtnReset_Click(object sender, RoutedEventArgs e)
     {
-        _game.Reset();
+        _game.GameController.Reset();
     }
     
     private async void BtnRecord_Click(object sender, RoutedEventArgs e)
@@ -186,10 +171,8 @@ public partial class MainWindow : Window
     
     private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        if (_updateTimer != null)
-        {
-            _updateTimer.Interval = TimeSpan.FromMilliseconds(SpeedSlider.Value);
-        }
+        if(_game != null)
+         _game.UpdateTime = TimeSpan.FromMilliseconds(SpeedSlider.Value);
     }
     
     private void Field_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -208,7 +191,7 @@ public partial class MainWindow : Window
     
     private void Field_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        _game.AfterDrawing();
+        _game.GameController.AfterDrawing();
         _isDrawing = false;
     }
     
@@ -244,7 +227,7 @@ public partial class MainWindow : Window
         int cellX = (int)(bitmapX / cellSize);
         int cellY = (int)(bitmapY / cellSize);
         
-        _game.BeforeDrawing();
+        _game.GameController.BeforeDrawing();
         GameSettings.DrawPosition = new Model.Vector(cellX, cellY);
     }
     
@@ -281,7 +264,21 @@ public partial class MainWindow : Window
     {
         if (e.ChangedButton == MouseButton.Left)
         {
-            this.DragMove();
+            DragMove();
         }
     }
+    private void OpenButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        var importWindow = new ImageImportWindow();
+        bool? result = importWindow.ShowDialog();
+
+        if (result != true || importWindow.SelectedImage is null)
+            return;
+
+        InitGame();
+
+        var clonedImage = importWindow.SelectedImage.Clone();
+        _game.InitializeGameField(clonedImage, Field, _videoManager, false);
+    }
+
 }

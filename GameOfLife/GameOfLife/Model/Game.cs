@@ -1,64 +1,123 @@
-﻿namespace GameOfLife.Model;
+﻿using System.Diagnostics;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using GameOfLife.Services;
+using GameOfLife.ViewModel;
+
+namespace GameOfLife.Model;
 
 public class Game
 {
-    private StateMachine _stateMachine;
+    private RenderingService _renderingService;
+    private GameController _gameController;
+    private GameSettings _gameSettings;
     private TileMap _tileMap;
-    private RunningState _running;
-    private PausedState _paused;
-    private BaseGameState _stateBeforeDrawing; 
+    private DispatcherTimer _updateTimer;
+    private VideoRecordingManager _videoManager;
+    private Image _renderingField;
     
-    public Game(TileMap tileMap, GameSettings gameSettings)
+    //Метрики
+    public double GPS => _metrics.GPS;
+    public double LastUpdateTimeMs => _metrics.LastUpdateTimeMs;
+    public double LastCycleTimeMs => _metrics.LastCycleTimeMs;
+    private PerformanceMetrics _metrics = new();
+    
+    public TimeSpan UpdateTime
     {
-        _tileMap = tileMap;
-        _stateMachine = new StateMachine();
-        _running = new RunningState(_tileMap, gameSettings);
-        _paused = new PausedState(_tileMap, gameSettings);
+        set
+        {
+            if (_updateTimer != null)
+                _updateTimer.Interval = value;
+        }
     }
     
-    public void Start()
+    public TileMap TileMap
     {
-        if(_tileMap.IsEmpty())
-            _tileMap.InitializeMap(false);
-        _stateMachine.SetState(_running);
+        get => _tileMap;
+        set => _tileMap = value;
     }
     
-    public void Pause()
+    public GameController GameController
     {
-        _stateMachine.SetState(_paused);
+        get => _gameController;
+        set => _gameController = value;
     }
     
-    public void Resume() => _stateMachine.SetState(_running);
-   
-    public void BeforeDrawing()
+    private void InitializeGame()
     {
-        if(_stateBeforeDrawing == null)
-            _stateBeforeDrawing = _stateMachine.CurrentState;
+        _gameSettings = new GameSettings();
+        _tileMap = new TileMap(MainViewModel.Instance.DisplaySettings.MapSize);
+        _gameController = new GameController(_tileMap, _gameSettings);
+    }
+    
+    public void InitializeGameField(WriteableBitmap bitmap, Image field, VideoRecordingManager videoManager, bool isFirst = true)
+    {
+        if (_updateTimer != null)
+            _updateTimer.Stop();
         
-        if (_stateMachine.CurrentState != _paused)
+        _videoManager = videoManager;
+        int cellSize = MainViewModel.Instance.DisplaySettings == null ? 5
+            : MainViewModel.Instance.DisplaySettings.CellSize;
+        
+        MainViewModel.Instance.DisplaySettings = new DisplaySettings(
+            bitmap.PixelWidth,
+            bitmap.PixelHeight,
+            cellSize: cellSize)
         {
-            _stateMachine.SetState(_paused);
-        }
-    }
-    
-    public void AfterDrawing()
-    {
-        if (_stateBeforeDrawing != null)
+            UseCellRendering = true
+        };
+        
+        InitializeGame();
+        TileMap.InitializeMap(bitmap);
+        
+        MainViewModel.Instance.DisplaySettings.MapSizeChanged += size =>
         {
-            _stateMachine.SetState(_stateBeforeDrawing);
-            _stateBeforeDrawing = null; 
-        }
+            _renderingService.Clear();
+            TileMap.Resize(size);
+        };
+        
+        if (isFirst)
+            MainViewModel.Instance.MainCellType = CellTypeRegistry.Get(1);
+        
+        var renderBitmap = new WriteableBitmap(
+            bitmap.PixelWidth,
+            bitmap.PixelHeight,
+            96, 96,
+            PixelFormats.Bgra32,
+            null
+        );
+        
+        _renderingService = new RenderingService(renderBitmap, MainViewModel.Instance.DisplaySettings);
+        field.Source = renderBitmap;
+        _renderingField = field;
+        _renderingService.DrawField(TileMap);
+        InitializeGameLoop();
     }
     
-    public void Update()
+    private void InitializeGameLoop()
     {
-        _stateMachine.Update();
-    }
-    
-    public void Reset()
-    {
-        _tileMap.InitializeMap(true);
-        GameSettings.DrawPosition = null;
-        Pause();
+        _metrics.StartCycle();
+
+        _updateTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(10)
+        };
+
+        _updateTimer.Tick += (_, _) =>
+        {
+            _metrics.BeginUpdate();
+
+            GameController.Update();
+            _renderingService.DrawField(TileMap);
+
+            _metrics.EndUpdate();
+
+            if (_videoManager.IsRecording && _renderingField.Source is WriteableBitmap bitmap)
+                _videoManager.CaptureFrame(bitmap);
+        };
+
+        _updateTimer.Start();
     }
 }
