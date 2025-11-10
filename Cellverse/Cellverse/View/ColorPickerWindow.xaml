@@ -1,0 +1,402 @@
+﻿<Window
+    AllowsTransparency="True"
+    Background="Transparent"
+    Height="700"
+    ResizeMode="NoResize"
+    Title="Выбор цвета"
+    Width="420"
+    WindowStartupLocation="CenterOwner"
+    WindowStyle="None"
+    x:Class="Cellverse.View.ColorPickerWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Border BorderThickness="0">
+        <Border
+            Background="{StaticResource BgDark}"
+            BorderBrush="{StaticResource BorderColor}"
+            BorderThickness="1"
+            CornerRadius="12">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="44" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--  Заголовок  -->
+                <Border
+                    Background="{StaticResource BgPanel}"
+                    BorderBrush="{StaticResource BorderColor}"
+                    BorderThickness="0,0,0,1"
+                    CornerRadius="12,12,0,0"
+                    Grid.Row="0"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel
+                            Grid.Column="0"
+                            Margin="16,0,0,0"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                            <Border
+                                Background="{StaticResource AccentPrimary}"
+                                CornerRadius="6"
+                                Height="24"
+                                Margin="0,0,12,0"
+                                Width="24">
+                                <TextBlock
+                                    FontSize="14"
+                                    HorizontalAlignment="Center"
+                                    Text="🎨"
+                                    VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock
+                                FontSize="15"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource TextPrimary}"
+                                Text="Выбор цвета"
+                                VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <Button
+                            Click="Cancel_Click"
+                            Grid.Column="1"
+                            Height="44"
+                            Style="{StaticResource TitleBarCloseButtonStyle}"
+                            Width="46">
+                            <Path
+                                Data="M 0,0 L 10,10 M 10,0 L 0,10"
+                                Stretch="None"
+                                Stroke="White"
+                                StrokeThickness="1.5" />
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!--  Контент с прокруткой  -->
+                <ScrollViewer
+                    Grid.Row="1"
+                    HorizontalScrollBarVisibility="Disabled"
+                    Margin="24"
+                    VerticalScrollBarVisibility="Auto">
+
+                    <StackPanel>
+                        <!--  Предпросмотр  -->
+                        <Border
+                            Background="{StaticResource BgCard}"
+                            BorderBrush="{StaticResource BorderColor}"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Margin="0,0,0,20"
+                            Padding="20">
+                            <StackPanel>
+                                <TextBlock
+                                    Margin="0,0,0,12"
+                                    Style="{StaticResource SubHeaderText}"
+                                    Text="Предпросмотр" />
+                                <Border
+                                    BorderBrush="{StaticResource BorderColor}"
+                                    BorderThickness="2"
+                                    CornerRadius="8"
+                                    Height="50"
+                                    x:Name="PreviewBorder">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="#FF0000" x:Name="PreviewColor" />
+                                    </Border.Background>
+                                </Border>
+                                <TextBlock
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Foreground="White"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,8,0,0"
+                                    Text="#FFFFFF"
+                                    x:Name="HexText" />
+                            </StackPanel>
+                        </Border>
+
+                        <!--  RGB слайдеры  -->
+                        <Border
+                            Background="{StaticResource BgCard}"
+                            BorderBrush="{StaticResource BorderColor}"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Padding="16">
+                            <StackPanel>
+                                <TextBlock
+                                    Margin="0,0,0,12"
+                                    Style="{StaticResource SubHeaderText}"
+                                    Text="Компоненты цвета" />
+
+                                <!--  Красный  -->
+                                <Grid Margin="0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="28" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse
+                                        Fill="#FF0000"
+                                        Grid.Column="0"
+                                        Height="14"
+                                        VerticalAlignment="Center"
+                                        Width="14" />
+                                    <Slider
+                                        Grid.Column="1"
+                                        Margin="6,0"
+                                        Maximum="255"
+                                        Minimum="0"
+                                        Value="255"
+                                        ValueChanged="Color_Changed"
+                                        x:Name="RedSlider" />
+                                    <TextBlock
+                                        FontWeight="Bold"
+                                        Foreground="{StaticResource TextPrimary}"
+                                        Grid.Column="2"
+                                        Text="{Binding ElementName=RedSlider, Path=Value, StringFormat='{}{0:F0}'}"
+                                        TextAlignment="Right"
+                                        VerticalAlignment="Center" />
+                                </Grid>
+
+                                <!--  Зелёный  -->
+                                <Grid Margin="0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="28" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse
+                                        Fill="#00FF00"
+                                        Grid.Column="0"
+                                        Height="14"
+                                        VerticalAlignment="Center"
+                                        Width="14" />
+                                    <Slider
+                                        Grid.Column="1"
+                                        Margin="6,0"
+                                        Maximum="255"
+                                        Minimum="0"
+                                        Value="0"
+                                        ValueChanged="Color_Changed"
+                                        x:Name="GreenSlider" />
+                                    <TextBlock
+                                        FontWeight="Bold"
+                                        Foreground="{StaticResource TextPrimary}"
+                                        Grid.Column="2"
+                                        Text="{Binding ElementName=GreenSlider, Path=Value, StringFormat='{}{0:F0}'}"
+                                        TextAlignment="Right"
+                                        VerticalAlignment="Center" />
+                                </Grid>
+
+                                <!--  Синий  -->
+                                <Grid Margin="0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="28" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse
+                                        Fill="#0000FF"
+                                        Grid.Column="0"
+                                        Height="14"
+                                        VerticalAlignment="Center"
+                                        Width="14" />
+                                    <Slider
+                                        Grid.Column="1"
+                                        Margin="6,0"
+                                        Maximum="255"
+                                        Minimum="0"
+                                        Value="0"
+                                        ValueChanged="Color_Changed"
+                                        x:Name="BlueSlider" />
+                                    <TextBlock
+                                        FontWeight="Bold"
+                                        Foreground="{StaticResource TextPrimary}"
+                                        Grid.Column="2"
+                                        Text="{Binding ElementName=BlueSlider, Path=Value, StringFormat='{}{0:F0}'}"
+                                        TextAlignment="Right"
+                                        VerticalAlignment="Center" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!--  Быстрый выбор  -->
+                        <Border
+                            Background="{StaticResource BgCard}"
+                            BorderBrush="{StaticResource BorderColor}"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Margin="0,20,0,0"
+                            Padding="16">
+                            <StackPanel>
+                                <TextBlock
+                                    Margin="0,0,0,12"
+                                    Style="{StaticResource SubHeaderText}"
+                                    Text="Быстрый выбор" />
+                                <UniformGrid Columns="8" Rows="2">
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#FF0000"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#FF0000"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#FF6B00"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#FF6B00"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#FFD700"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#FFD700"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#00FF00"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#00FF00"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#00D9A5"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#00D9A5"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#00BFFF"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#00BFFF"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#2F81F7"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#2F81F7"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#8B00FF"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#8B00FF"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#FF1493"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#FF1493"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#FFA500"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#FFA500"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#FFFF00"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#FFFF00"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#7FFF00"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#7FFF00"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#00CED1"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#00CED1"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#4169E1"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#4169E1"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#9370DB"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Tag="#9370DB"
+                                        Width="28" />
+                                    <Ellipse
+                                        Cursor="Hand"
+                                        Fill="#FFFFFF"
+                                        Height="28"
+                                        Margin="2"
+                                        MouseLeftButtonDown="QuickColor_Click"
+                                        Stroke="{StaticResource BorderColor}"
+                                        StrokeThickness="1"
+                                        Tag="#FFFFFF"
+                                        Width="28" />
+                                </UniformGrid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!--  Кнопки  -->
+                <Border
+                    Background="{StaticResource BgPanel}"
+                    BorderBrush="{StaticResource BorderColor}"
+                    BorderThickness="0,1,0,0"
+                    CornerRadius="0,0,12,12"
+                    Grid.Row="2"
+                    Padding="24,16">
+                    <UniformGrid Columns="2">
+                        <Button
+                            Click="Cancel_Click"
+                            Content="Отмена"
+                            Margin="0,0,8,0" />
+                        <Button
+                            Click="Apply_Click"
+                            Content="Применить"
+                            Margin="8,0,0,0"
+                            Style="{StaticResource BtnPrimary}" />
+                    </UniformGrid>
+                </Border>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

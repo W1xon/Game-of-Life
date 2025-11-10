@@ -1,0 +1,523 @@
+﻿<Window
+    AllowsTransparency="True"
+    Background="Transparent"
+    Height="720"
+    MinHeight="400"
+    MinWidth="500"
+    ResizeMode="CanResizeWithGrip"
+    Title="Game of Life"
+    Width="1280"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d"
+    x:Class="Cellverse.View.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  Убрал ВСЕ тени из Resources  -->
+
+    <Border BorderThickness="0">
+        <Border
+            Background="{StaticResource BgDark}"
+            BorderBrush="{StaticResource BorderColor}"
+            BorderThickness="1"
+            CornerRadius="12">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="44" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--  Title Bar  -->
+                <Border
+                    Background="{StaticResource BgPanel}"
+                    BorderBrush="{StaticResource BorderColor}"
+                    BorderThickness="0,0,0,1"
+                    CornerRadius="12,12,0,0"
+                    Grid.Row="0"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--  Иконка и заголовок  -->
+                        <StackPanel
+                            Grid.Column="0"
+                            Margin="16,0,0,0"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                            <Border
+                                Background="{StaticResource AccentPrimary}"
+                                CornerRadius="6"
+                                Height="24"
+                                Margin="0,0,12,0"
+                                Width="24">
+                                <TextBlock
+                                    FontSize="14"
+                                    HorizontalAlignment="Center"
+                                    Text="🎮"
+                                    VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock
+                                FontSize="15"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource TextPrimary}"
+                                Text="Сellverse"
+                                VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <!--  Кнопки управления окном  -->
+                        <StackPanel
+                            Grid.Column="2"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                            <Button
+                                Click="MinimizeButton_Click"
+                                Height="44"
+                                Style="{StaticResource TitleBarButtonStyle}"
+                                Width="46"
+                                x:Name="MinimizeButton">
+                                <Path
+                                    Data="M 0,0 H 12"
+                                    Stretch="None"
+                                    Stroke="{StaticResource TextSecondary}"
+                                    StrokeThickness="1.5" />
+                            </Button>
+                            <Button
+                                Click="MaximizeButton_Click"
+                                Height="44"
+                                Style="{StaticResource TitleBarButtonStyle}"
+                                Width="46"
+                                x:Name="MaximizeButton">
+                                <Path
+                                    Data="M 0,0 H 10 V 10 H 0 Z"
+                                    Fill="Transparent"
+                                    Stretch="None"
+                                    Stroke="{StaticResource TextSecondary}"
+                                    StrokeThickness="1.5"
+                                    x:Name="MaximizeIcon" />
+                            </Button>
+                            <Button
+                                Click="CloseButton_Click"
+                                Height="44"
+                                Style="{StaticResource TitleBarCloseButtonStyle}"
+                                Width="46"
+                                x:Name="CloseButton">
+                                <Path
+                                    Data="M 0,0 L 10,10 M 10,0 L 0,10"
+                                    Stretch="None"
+                                    Stroke="White"
+                                    StrokeThickness="1.5" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="340" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  Панель управления  -->
+                    <Border
+                        Background="{StaticResource BgPanel}"
+                        BorderBrush="{StaticResource BorderColor}"
+                        BorderThickness="0,0,1,0"
+                        Grid.Column="0">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="24,24,24,32">
+                                <!--  Заголовок с кнопкой помощи  -->
+                                <Grid Margin="0,0,0,28">
+                                    <TextBlock
+                                        FontSize="26"
+                                        FontWeight="Bold"
+                                        Foreground="{StaticResource TextPrimary}"
+                                        Text="Контроллер" />
+                                    <Button
+                                        Click="GameInfoButton_OnClick"
+                                        Content="?"
+                                        FontSize="16"
+                                        FontWeight="Bold"
+                                        Height="36"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource IconButtonStyle}"
+                                        Width="36" />
+                                </Grid>
+
+                                <!--  🎮 Секция управления  -->
+                                <Border
+                                    Background="{StaticResource BgCard}"
+                                    BorderBrush="{StaticResource BorderColor}"
+                                    BorderThickness="1"
+                                    CornerRadius="12"
+                                    Margin="0,0,0,20"
+                                    Padding="16">
+                                    <StackPanel>
+                                        <TextBlock
+                                            Margin="0,0,0,16"
+                                            Style="{StaticResource SubHeaderText}"
+                                            Text="🎮 Управление" />
+                                        <UniformGrid Columns="2" Rows="2">
+                                            <Button
+                                                Click="BtnStart_Click"
+                                                Content="▶ Старт"
+                                                Margin="0,0,6,6"
+                                                Style="{StaticResource BtnGreen}" />
+                                            <Button
+                                                Click="BtnPause_Click"
+                                                Content="⏸ Пауза"
+                                                Margin="6,0,0,6"
+                                                Style="{StaticResource BtnGold}" />
+                                            <Button
+                                                Click="BtnResume_Click"
+                                                Content="⏯ Продолжить"
+                                                Margin="0,6,6,0"
+                                                Style="{StaticResource BtnBlue}" />
+                                            <Button
+                                                Click="BtnReset_Click"
+                                                Content="🔄 Сброс"
+                                                Margin="6,6,0,0"
+                                                Style="{StaticResource BtnRed}" />
+                                        </UniformGrid>
+                                        <Button
+                                            Click="BtnRecord_Click"
+                                            Content="⏺ Запись видео"
+                                            Margin="0,12,0,0"
+                                            Style="{StaticResource BtnRed}"
+                                            ToolTip="Записать симуляцию в видео файл"
+                                            x:Name="BtnRecord" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!--  📂 Секция импорта  -->
+                                <Border
+                                    Background="{StaticResource BgCard}"
+                                    BorderBrush="{StaticResource BorderColor}"
+                                    BorderThickness="1"
+                                    CornerRadius="12"
+                                    Margin="0,0,0,20"
+                                    Padding="16">
+                                    <StackPanel>
+                                        <TextBlock
+                                            Margin="0,0,0,14"
+                                            Style="{StaticResource SubHeaderText}"
+                                            Text="📂 Импорт" />
+                                        <Button
+                                            Click="OpenButton_OnClick"
+                                            Content="📁 Импорт изображения"
+                                            x:Name="OpenButton" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!--  ⚙️ Секция настроек  -->
+                                <Border
+                                    Background="{StaticResource BgCard}"
+                                    BorderBrush="{StaticResource BorderColor}"
+                                    BorderThickness="1"
+                                    CornerRadius="12"
+                                    Margin="0,0,0,20"
+                                    Padding="16">
+                                    <StackPanel>
+                                        <TextBlock
+                                            Margin="0,0,0,14"
+                                            Style="{StaticResource SubHeaderText}"
+                                            Text="⚙️ Настройки" />
+
+                                        <TextBlock Style="{StaticResource LabelText}" Text="Размер клеток" />
+                                        <TextBox Text="{Binding DisplaySettings.CellSize}" x:Name="SizeTextBox" />
+
+                                        <TextBlock Style="{StaticResource LabelText}" Text="Плотность клеток" />
+                                        <TextBox x:Name="DensityTextBox" />
+
+                                        <TextBlock Style="{StaticResource LabelText}" Text="Кисть" />
+                                        <ComboBox ItemsSource="{Binding BrushesRegistry.BrushNames}" SelectedIndex="{Binding BrushesRegistry.SelectedIndex, Mode=TwoWay}" />
+
+                                        <TextBlock
+                                            Margin="0,8,0,4"
+                                            Style="{StaticResource LabelText}"
+                                            Text="Скорость симуляции" />
+                                        <Slider
+                                            Height="32"
+                                            IsSnapToTickEnabled="True"
+                                            Maximum="100"
+                                            Minimum="10"
+                                            TickFrequency="5"
+                                            Value="1"
+                                            ValueChanged="SpeedSlider_ValueChanged"
+                                            x:Name="SpeedSlider" />
+                                        <TextBlock
+                                            FontSize="11"
+                                            HorizontalAlignment="Right"
+                                            Margin="0,0,0,0"
+                                            Opacity="0.7"
+                                            Style="{StaticResource LabelText}"
+                                            Text="{Binding ElementName=SpeedSlider, Path=Value, StringFormat='Значение: {0:F0}'}" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!--  🎨 Секция визуализации  -->
+                                <Border
+                                    Background="{StaticResource BgCard}"
+                                    BorderBrush="{StaticResource BorderColor}"
+                                    BorderThickness="1"
+                                    CornerRadius="12"
+                                    Margin="0,0,0,20"
+                                    Padding="16">
+                                    <StackPanel>
+                                        <TextBlock
+                                            Margin="0,0,0,14"
+                                            Style="{StaticResource SubHeaderText}"
+                                            Text="🎨 Визуализация" />
+
+                                        <CheckBox Content="Рендеринг по клеткам" IsChecked="{Binding DisplaySettings.UseCellRendering}">
+                                            <CheckBox.ToolTip>
+                                                <ToolTip Content="При отключении — отрисовка идёт по каждому пикселю, что может значительно снизить производительность." />
+                                            </CheckBox.ToolTip>
+                                        </CheckBox>
+
+                                        <CheckBox
+                                            Content="Показать производительность"
+                                            IsChecked="True"
+                                            x:Name="ShowPerformanceCheckBox" />
+
+                                        <CheckBox
+                                            Content="Дополнительные цвета"
+                                            IsChecked="{Binding UseAdditionalColors}"
+                                            x:Name="ColorCheckBox" />
+
+                                        <TextBlock
+                                            Margin="0,8,0,4"
+                                            Style="{StaticResource LabelText}"
+                                            Text="Цветовая схема"
+                                            Visibility="{Binding UseAdditionalColors, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                        <ComboBox
+                                            ItemsSource="{Binding DisplaySettings.ColorStrategyNames}"
+                                            SelectedItem="{Binding DisplaySettings.CurrentColorStrategyName, Mode=TwoWay}"
+                                            SelectionChanged="ThemeComboBox_OnSelectionChanged"
+                                            Visibility="{Binding UseAdditionalColors, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                            x:Name="ThemeComboBox" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!--  📜 Секция правил  -->
+                                <Border
+                                    Background="{StaticResource BgCard}"
+                                    BorderBrush="{StaticResource BorderColor}"
+                                    BorderThickness="1"
+                                    CornerRadius="12"
+                                    Padding="16">
+                                    <StackPanel>
+                                        <TextBlock
+                                            Margin="0,0,0,14"
+                                            Style="{StaticResource SubHeaderText}"
+                                            Text="📜 Правила игры" />
+
+                                        <Button
+                                            Click="OpenNewCellWindow_Click"
+                                            Content="⚡ Менеджер клеток"
+                                            Style="{StaticResource BtnBlue}" />
+
+                                        <StackPanel Margin="0,16,0,12" Orientation="Horizontal">
+                                            <TextBlock
+                                                Margin="0"
+                                                Style="{StaticResource LabelText}"
+                                                Text="Активная клетка:"
+                                                VerticalAlignment="Center" />
+                                            <Border
+                                                BorderBrush="{StaticResource BorderColor}"
+                                                BorderThickness="2"
+                                                CornerRadius="6"
+                                                Cursor="Hand"
+                                                Height="28"
+                                                Margin="12,0,0,0"
+                                                MouseLeftButtonDown="ColorPicker_Click"
+                                                Tag="{Binding MainCellType}"
+                                                Width="28">
+                                                <Rectangle
+                                                    Fill="{Binding MainCellType.Color, Converter={StaticResource ColorToBrushConverter}}"
+                                                    RadiusX="4"
+                                                    RadiusY="4" />
+                                            </Border>
+                                        </StackPanel>
+
+                                        <TextBlock Style="{StaticResource LabelText}" Text="Клетка выживает при соседях:" />
+                                        <TextBox Text="{Binding MainCellType.BirthRules}" x:Name="SurviveTextBox" />
+
+                                        <TextBlock Style="{StaticResource LabelText}" Text="Клетка рождается при соседях:" />
+                                        <TextBox
+                                            Margin="0,0,0,0"
+                                            Text="{Binding MainCellType.SurvivalRules}"
+                                            x:Name="BornTextBox" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+
+                    <!--  Область визуализации  -->
+                    <Border
+                        Background="#0A0C10"
+                        CornerRadius="0,0,12,0"
+                        Grid.Column="1"
+                        Padding="20">
+                        <Grid>
+                            <!--  Главное поле БЕЗ теней  -->
+                            <Border
+                                Background="{StaticResource BgCard}"
+                                BorderBrush="{StaticResource BorderColor}"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                Padding="10"
+                                SnapsToDevicePixels="True"
+                                x:Name="GameBorder">
+                                <Image
+                                    HorizontalAlignment="Center"
+                                    MouseLeftButtonDown="Field_OnMouseLeftButtonDown"
+                                    MouseLeftButtonUp="Field_OnMouseLeftButtonUp"
+                                    MouseMove="Field_OnMouseMove"
+                                    Stretch="Uniform"
+                                    VerticalAlignment="Center"
+                                    x:Name="Field" />
+                            </Border>
+
+                            <!--  Панель статистики БЕЗ теней  -->
+                            <Border
+                                Background="{StaticResource BgCard}"
+                                BorderBrush="{StaticResource AccentBlue}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                HorizontalAlignment="Right"
+                                Margin="0,12,12,0"
+                                Opacity="0.8"
+                                Padding="14,10"
+                                VerticalAlignment="Top"
+                                Visibility="{Binding ElementName=ShowPerformanceCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                x:Name="PerformancePanel">
+                                <StackPanel Width="170">
+                                    <TextBlock
+                                        FontSize="10"
+                                        FontWeight="Bold"
+                                        Foreground="{StaticResource TextSecondary}"
+                                        Margin="0,0,0,8"
+                                        Text="⚡ ПРОИЗВОДИТЕЛЬНОСТЬ"
+                                        TextAlignment="Center" />
+
+                                    <Grid Margin="0,0,0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            FontSize="12"
+                                            FontWeight="Medium"
+                                            Foreground="{StaticResource TextSecondary}"
+                                            Grid.Column="0"
+                                            Text="GPS" />
+                                        <TextBlock
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource AccentGreen}"
+                                            Grid.Column="1"
+                                            Text="0"
+                                            TextAlignment="Right"
+                                            x:Name="GpsText" />
+                                    </Grid>
+
+                                    <Grid Margin="0,0,0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            FontSize="12"
+                                            FontWeight="Medium"
+                                            Foreground="{StaticResource TextSecondary}"
+                                            Grid.Column="0"
+                                            Text="Цикл" />
+                                        <TextBlock
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource AccentGold}"
+                                            Grid.Column="1"
+                                            Text="0.00 мс"
+                                            TextAlignment="Right"
+                                            x:Name="CycleTimeText" />
+                                    </Grid>
+
+                                    <Grid Margin="0,0,0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            FontSize="12"
+                                            FontWeight="Medium"
+                                            Foreground="{StaticResource TextSecondary}"
+                                            Grid.Column="0"
+                                            Text="Выполн." />
+                                        <TextBlock
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource AccentRed}"
+                                            Grid.Column="1"
+                                            Text="0.00 мс"
+                                            TextAlignment="Right"
+                                            x:Name="ExecutionTimeText" />
+                                    </Grid>
+
+                                    <Grid Margin="0,0,0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            FontSize="12"
+                                            FontWeight="Medium"
+                                            Foreground="{StaticResource TextSecondary}"
+                                            Grid.Column="0"
+                                            Text="Изменено" />
+                                        <TextBlock
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource AccentBlue}"
+                                            Grid.Column="1"
+                                            Text="0"
+                                            TextAlignment="Right"
+                                            x:Name="ChangedCellsText" />
+                                    </Grid>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            FontSize="12"
+                                            FontWeight="Medium"
+                                            Foreground="{StaticResource TextSecondary}"
+                                            Grid.Column="0"
+                                            Text="Размер" />
+                                        <TextBlock
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Foreground="{StaticResource TextSecondary}"
+                                            Grid.Column="1"
+                                            Text="0"
+                                            TextAlignment="Right"
+                                            x:Name="SizeFieldText" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

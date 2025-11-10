@@ -1,0 +1,288 @@
+﻿<Window
+    AllowsTransparency="True"
+    Background="Transparent"
+    Height="600"
+    MinWidth="650"
+    ResizeMode="CanResize"
+    Title="Создание новой клетки"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    x:Class="Cellverse.View.NewCellTypeWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Border BorderThickness="0">
+        <Border
+            Background="{StaticResource BgDark}"
+            BorderBrush="{StaticResource BorderColor}"
+            BorderThickness="1"
+            CornerRadius="12">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="44" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--  Title Bar  -->
+                <Border
+                    Background="{StaticResource BgPanel}"
+                    BorderBrush="{StaticResource BorderColor}"
+                    BorderThickness="0,0,0,1"
+                    CornerRadius="12,12,0,0"
+                    Grid.Row="0"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--  Иконка и заголовок  -->
+                        <StackPanel
+                            Grid.Column="0"
+                            Margin="16,0,0,0"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                            <Border
+                                Background="{StaticResource AccentGreen}"
+                                CornerRadius="6"
+                                Height="24"
+                                Margin="0,0,12,0"
+                                Width="24">
+                                <TextBlock
+                                    FontSize="14"
+                                    HorizontalAlignment="Center"
+                                    Text="🧬"
+                                    VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock
+                                FontSize="15"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource TextPrimary}"
+                                Text="Менеджер клеток"
+                                VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <!--  Кнопка закрытия  -->
+                        <Button
+                            Click="CloseButton_Click"
+                            Grid.Column="1"
+                            Height="44"
+                            Style="{StaticResource TitleBarCloseButtonStyle}"
+                            Width="46"
+                            x:Name="CloseButton">
+                            <Path
+                                Data="M 0,0 L 10,10 M 10,0 L 0,10"
+                                Stretch="None"
+                                Stroke="White"
+                                StrokeThickness="1.5" />
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!--  Основной контент  -->
+                <Grid Grid.Row="1" Margin="24,24,24,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!--  Заголовок и описание  -->
+                    <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                        <TextBlock
+                            FontSize="24"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource TextPrimary}"
+                            Margin="0,0,0,8"
+                            Text="Типы клеток" />
+                        <TextBlock
+                            Margin="0"
+                            Opacity="0.8"
+                            Style="{StaticResource LabelText}"
+                            Text="Управление правилами жизни и смерти для каждого типа клеток" />
+                    </StackPanel>
+
+                    <!--  Кнопка добавления в карточке  -->
+                    <Border
+                        Background="{StaticResource BgCard}"
+                        BorderBrush="{StaticResource BorderColor}"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Grid.Row="1"
+                        Margin="0,0,0,20"
+                        Padding="16">
+                        <StackPanel>
+                            <TextBlock
+                                Margin="0,0,0,10"
+                                Style="{StaticResource SubHeaderText}"
+                                Text="➕ Добавить новую клетку" />
+                            <Button
+                                Command="{Binding AddNewCellCommand}"
+                                Content="Создать клетку"
+                                Style="{StaticResource BtnGreen}" />
+                        </StackPanel>
+                    </Border>
+
+                    <!--  Заголовки столбцов  -->
+                    <Border
+                        Background="{StaticResource BgCard}"
+                        BorderBrush="{StaticResource BorderColor}"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Grid.Row="2"
+                        Margin="0,0,0,14"
+                        Padding="14,12">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="80" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Grid.Column="0"
+                                Margin="0"
+                                Style="{StaticResource LabelText}"
+                                Text="ID"
+                                VerticalAlignment="Center" />
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Grid.Column="1"
+                                Margin="8,0,0,0"
+                                Style="{StaticResource LabelText}"
+                                Text="Цвет"
+                                VerticalAlignment="Center" />
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Grid.Column="2"
+                                Margin="8,0,0,0"
+                                Style="{StaticResource LabelText}"
+                                Text="Имя"
+                                VerticalAlignment="Center" />
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Grid.Column="3"
+                                Margin="8,0,0,0"
+                                Style="{StaticResource LabelText}"
+                                Text="Рождение"
+                                VerticalAlignment="Center" />
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Grid.Column="4"
+                                Margin="8,0,0,0"
+                                Style="{StaticResource LabelText}"
+                                Text="Выживание"
+                                VerticalAlignment="Center" />
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Grid.Column="5"
+                                Margin="8,0,0,0"
+                                Style="{StaticResource LabelText}"
+                                Text="Главная"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!--  Список клеток  -->
+                    <ScrollViewer
+                        Grid.Row="3"
+                        HorizontalScrollBarVisibility="Disabled"
+                        VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding CellTypes}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Background="{StaticResource BgCard}"
+                                        BorderBrush="{StaticResource BorderColor}"
+                                        BorderThickness="1"
+                                        CornerRadius="10"
+                                        Margin="0,0,0,10"
+                                        Padding="14,12">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40" />
+                                                <ColumnDefinition Width="50" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="80" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!--  ID  -->
+                                            <TextBlock
+                                                FontSize="13"
+                                                FontWeight="Bold"
+                                                Foreground="{StaticResource TextPrimary}"
+                                                Grid.Column="0"
+                                                Text="{Binding ID}"
+                                                VerticalAlignment="Center" />
+
+                                            <!--  Цвет с возможностью выбора  -->
+                                            <Border
+                                                BorderBrush="{StaticResource BorderColor}"
+                                                BorderThickness="2"
+                                                CornerRadius="6"
+                                                Cursor="Hand"
+                                                Grid.Column="1"
+                                                Height="28"
+                                                HorizontalAlignment="Left"
+                                                Margin="8,0,0,0"
+                                                MouseLeftButtonDown="ColorPicker_Click"
+                                                Tag="{Binding}"
+                                                Width="28">
+                                                <Rectangle
+                                                    Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
+                                                    RadiusX="4"
+                                                    RadiusY="4" />
+                                            </Border>
+
+                                            <!--  Имя  -->
+                                            <TextBox
+                                                Grid.Column="2"
+                                                Height="36"
+                                                Margin="8,0,0,0"
+                                                Text="{Binding Name, Mode=TwoWay}"
+                                                VerticalAlignment="Center" />
+
+                                            <!--  Правила рождения  -->
+                                            <TextBox
+                                                Grid.Column="3"
+                                                Height="36"
+                                                Margin="8,0,0,0"
+                                                MaxLength="10"
+                                                Text="{Binding BirthRules, Mode=TwoWay}"
+                                                VerticalAlignment="Center" />
+
+                                            <!--  Правила выживания  -->
+                                            <TextBox
+                                                Grid.Column="4"
+                                                Height="36"
+                                                Margin="8,0,0,0"
+                                                MaxLength="10"
+                                                Text="{Binding SurvivalRules, Mode=TwoWay}"
+                                                VerticalAlignment="Center" />
+
+                                            <!--  Приоритет  -->
+                                            <CheckBox
+                                                Grid.Column="5"
+                                                HorizontalAlignment="Center"
+                                                IsChecked="{Binding IsPriority, Mode=TwoWay}"
+                                                Margin="8,0,0,0"
+                                                VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+</Window>
