@@ -2,7 +2,7 @@
   <h1>🧬 Cellverse — симуляция хаоса и эволюции</h1>
   <h3><i>Когда пиксели начинают жить своей жизнью (буквально)</i></h3>
   <p><b>Проект, где клетки рождаются, умирают, конкурируют — и всё это ради науки (и красоты).</b></p>
-  <img src="Assets/GameOfLifeLogo.png" width="50%" alt="Cellverse Logo">
+  <img src="Assets/Placeholder.png" width="90%" alt="Cellverse Logo">
   
   ![Version](https://img.shields.io/badge/version-1.1.0-00D9A5?style=for-the-badge)
   ![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?style=for-the-badge&logo=dotnet)
